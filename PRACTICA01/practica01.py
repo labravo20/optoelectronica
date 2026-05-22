@@ -28,14 +28,14 @@ import pyqtgraph as pg
 
 # Creando Conexión Serial
 # --> Inicializa comunicación con el microcontrolador (mcu) <--
-# ser = serial.Serial(
+ser = serial.Serial(
     
-#     ### IMPORTANTE VERIFICAR PUERTO ASOCIADO AL mcu EN USO 
-#     port='COM3', 
+    ### IMPORTANTE VERIFICAR PUERTO ASOCIADO AL mcu EN USO 
+    port='COM3', 
     
-#     # Velocidad de comunicación --> Valor estándar establecido en el mcu
-#     baudrate=115200
-# )
+    # Velocidad de comunicación --> Valor estándar establecido en el mcu
+    baudrate=115200
+)
  
 
 
@@ -146,14 +146,14 @@ class RealTimePlot(QMainWindow):
         # RANDOM SOMULATOR DATA (!!!!) --> Desactivar cuando mcu está conectado
         # =====================================
 
-        new_value = np.random.normal() # Generación artificial de data
+        # new_value = np.random.normal() # Generación artificial de data
 
-        # Update buffer
-        self.y = self.y[1:]
-        self.y.append(new_value)
+        # # Update buffer
+        # self.y = self.y[1:]
+        # self.y.append(new_value)
 
-        # Update graph
-        self.data_line.setData(self.x, self.y)
+        # # Update graph
+        # self.data_line.setData(self.x, self.y)
           
 
         # =====================================
@@ -163,7 +163,7 @@ class RealTimePlot(QMainWindow):
         # --> CHECK IF THERE IS DATA AVAILABLE <--
         
         # In_waiting tells how many bytes are waiting in buffer
-        # if ser.in_waiting:
+        if ser.in_waiting:
 
             # =================================================
             # READ ONE LINE FROM SERIAL PORT
@@ -173,16 +173,16 @@ class RealTimePlot(QMainWindow):
             # decode() converts bytes -> text
             # strip() removes spaces/newlines
 
-        #     line = ser.readline().decode().strip()
+            line = ser.readline().decode().strip()
 
             # =================================================
             # TRY TO CONVERT DATA TO FLOAT
             # =================================================
 
-        #     try:
+            try:
 
                  # Convert incoming text into number
-        #         new_value = float(line)
+                new_value = float(line)
 
 
                 # =============================================
@@ -190,21 +190,21 @@ class RealTimePlot(QMainWindow):
                 # =============================================
                   
                   # Remove oldest value
-        #         self.y = self.y[1:]
+                self.y = self.y[1:]
                   
                   # Add newest value
-        #         self.y.append(new_value)
+                self.y.append(new_value)
 
                 # =============================================
                 # UPDATE GRAPH VISUALLY
                 # =============================================
                 
                   # Replace old graph data with new data
-        #         self.data_line.setData(self.x, self.y)
+                self.data_line.setData(self.x, self.y)
 
         # If conversion fails, ignore the error
-        #     except:
-        #         pass
+            except:
+                pass
 
 
 
