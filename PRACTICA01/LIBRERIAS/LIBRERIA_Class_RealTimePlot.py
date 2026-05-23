@@ -21,7 +21,7 @@ import pyqtgraph as pg
 
 
 
-""" Inicio sección: Definición Window class"""
+""" Inicio sección: Definición Window REAL TIME PLOT class"""
 
 # NOTA: QMainWindow is a PyQt5 window template --> Diseño de clase a partir de este 'template'
 class RealTimePlot(QMainWindow):

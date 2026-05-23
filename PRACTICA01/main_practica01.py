@@ -16,16 +16,7 @@ from PyQt5.QtWidgets import QApplication
 
 
 # Importación de docs tipo LIBRERIAS
-from LIBRERIAS import LIBRERIA_Class_RealTimePlot as classRealTime
-
-
-
-
-""" INICIO SECCIÓN ASOCIADA DEFINICIÓN DE FUNCIONES PARA PROCESAMIENTO DATA SENSOR  """
-
-# NOTA: OUTPUT DEL SENSOR ESTÁ ASOCIADO A MEDIDAS EN 'lux'
-# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
+from LIBRERIAS import LIBRERIA_Class_StartWindow as startWindow
 
 
 
@@ -48,8 +39,7 @@ app = QApplication(sys.argv)
 # CREATE WINDOW OBJECT
 # ============================================================
 
-window = classRealTime.RealTimePlot()
-
+window = startWindow.StartWindow()
 
 
 # ============================================================
