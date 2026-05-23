@@ -17,7 +17,7 @@ import pyqtgraph as pg
 
 
 #### --> Importación de docs tipo LIBRERIAS
-#from LIBRERIAS import LIBRERIA_ComunicacionSerial as comSerial
+from LIBRERIAS import LIBRERIA_ComunicacionSerial as comSerial
 
 
 
@@ -113,64 +113,64 @@ class RealTimePlot(QMainWindow):
         # RANDOM SOMULATOR DATA (!!!!) --> Desactivar cuando mcu está conectado
         # =====================================
 
-        new_value = np.random.normal() # Generación artificial de data
+        # new_value = np.random.normal() # Generación artificial de data
 
-        # Update buffer
-        self.y = self.y[1:]
-        self.y.append(new_value)
+        # # Update buffer
+        # self.y = self.y[1:]
+        # self.y.append(new_value)
 
-        # Update graph
-        self.data_line.setData(self.x, self.y)
+        # # Update graph
+        # self.data_line.setData(self.x, self.y)
           
 
         # =====================================
         # MICROCONTROLLER DATA
         # =====================================
 
-        # # --> CHECK IF THERE IS DATA AVAILABLE <--
+        # --> CHECK IF THERE IS DATA AVAILABLE <--
         
-        # # In_waiting tells how many bytes are waiting in buffer
-        # if comSerial.ser.in_waiting:
+        # In_waiting tells how many bytes are waiting in buffer
+        if comSerial.ser.in_waiting:
 
-        #     # =================================================
-        #     # READ ONE LINE FROM SERIAL PORT
-        #     # =================================================
+            # =================================================
+            # READ ONE LINE FROM SERIAL PORT
+            # =================================================
 
-        #     # readline() reads until '\n'
-        #     # decode() converts bytes -> text
-        #     # strip() removes spaces/newlines
+            # readline() reads until '\n'
+            # decode() converts bytes -> text
+            # strip() removes spaces/newlines
 
-        #     line = comSerial.ser.readline().decode().strip()
+            line = comSerial.ser.readline().decode().strip()
 
-        #     # =================================================
-        #     # TRY TO CONVERT DATA TO FLOAT
-        #     # =================================================
+            # =================================================
+            # TRY TO CONVERT DATA TO FLOAT
+            # =================================================
 
-        #     try:
+            try:
 
-        #          # Convert incoming text into number
-        #         new_value = float(line)
+                 # Convert incoming text into number
+                new_value = float(line)
 
 
-        #         # =============================================
-        #         # UPDATE DATA BUFFER
-        #         # =============================================
+                # =============================================
+                # UPDATE DATA BUFFER
+                # =============================================
                   
-        #           # Remove oldest value
-        #         self.y = self.y[1:]
+                  # Remove oldest value
+                self.y = self.y[1:]
                   
-        #           # Add newest value
-        #         self.y.append(new_value)
+                  # Add newest value
+                self.y.append(new_value)
 
-        #         # =============================================
-        #         # UPDATE GRAPH VISUALLY
-        #         # =============================================
+                # =============================================
+                # UPDATE GRAPH VISUALLY
+                # =============================================
                 
-        #           # Replace old graph data with new data
-        #         self.data_line.setData(self.x, self.y)
+                  # Replace old graph data with new data
+                self.data_line.setData(self.x, self.y)
 
-        # # If conversion fails, ignore the error
-        #     except:
-        #         pass
+        # If conversion fails, ignore the error
+            except:
+                pass
 
 
