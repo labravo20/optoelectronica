@@ -47,7 +47,7 @@ class StartWindow(QWidget):
         # TITLE
         # ====================================================
 
-        title = QLabel("OPTICAL SENSOR INTERFACE")
+        title = QLabel("INTERFAZ ESPECTRÓMETRO OPTO-ELECTRÓNICA")
 
         title.setAlignment(Qt.AlignCenter)
 
@@ -65,8 +65,7 @@ class StartWindow(QWidget):
 
         description = QLabel(
 
-            "Real-time visualization system\n"
-            "for optoelectronic measurements."
+            "Sistema de vizualización en tiempo real.\n"
         )
 
         description.setAlignment(Qt.AlignCenter)
@@ -109,7 +108,7 @@ class StartWindow(QWidget):
         # SEND CHARACTER TO MICROCONTROLLER
         # ====================================================
 
-        comSerial.ser.write(b'S')
+        #comSerial.ser.write(b'S')
 
 
         # ====================================================

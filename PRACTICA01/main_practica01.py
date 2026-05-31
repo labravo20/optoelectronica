@@ -21,9 +21,6 @@ from LIBRERIAS import LIBRERIA_Class_StartWindow as startWindow
 
 
 
-
-
-
 """ INICIO SECCIÓN EJECUCIÓN INTERFAZ """
 
 # ============================================================
