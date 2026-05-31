@@ -14,17 +14,17 @@ from PyQt5.QtCore import Qt
 
 #### --> Importación de docs tipo LIBRERIAS
 
-# Import graph window
-from LIBRERIAS import LIBRERIA_Class_RealTimePlot as classPlot
 
 # Import serial communication
-from LIBRERIAS import LIBRERIA_ComunicacionSerial as comSerial
+from LIBRERIAS import LIBRERIA_ComunicacionSerial as ser
+
+# Import menu class window
+from LIBRERIAS import LIBRERIA_Class_MenuWindow as menuWindow
 
 
 
 
-
-""" Inicio sección: Definición Window REAL TIME PLOT class"""
+""" Inicio sección: Definición Window START WINDOW class"""
 
 class StartWindow(QWidget):
 
@@ -112,12 +112,12 @@ class StartWindow(QWidget):
 
 
         # ====================================================
-        # OPEN GRAPH WINDOW
+        # OPEN MENU WINDOW
         # ====================================================
 
-        self.graph_window = classPlot.RealTimePlot()
+        self.menu_window = menuWindow.MenuWindow()
 
-        self.graph_window.show()
+        self.menu_window.show()
 
 
         # ====================================================
