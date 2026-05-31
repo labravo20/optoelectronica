@@ -49,14 +49,28 @@ class RealTimePlot(QMainWindow):
         self.graphWidget.setBackground('w') # White background
         self.graphWidget.setTitle("Sensor Data") # Graph title
 
-        # Axis labels:
+        # Axis labels --- RANDOM:
         self.graphWidget.setLabel('left', 'Value')
         self.graphWidget.setLabel('bottom', 'Samples')
+
+        
+        
+        # Axis labels --- MCU:
+        # self.graphWidget.setLabel(
+        #     'left',
+        #     'Illuminance (lux)'
+        # )
+
+        # self.graphWidget.setLabel(
+        #     'bottom',
+        #     'Time (s)'
+        # )
+
 
 
 
         # =====================================
-        # # DATA STORAGE
+        # # DATA STORAGE --- PRUEBA CON DATA RANDOM
         # =====================================       
         
         # X-axis values:
@@ -67,6 +81,34 @@ class RealTimePlot(QMainWindow):
         # --> Creates numbers from 0 to 99
         self.y = [0] * 100
 
+
+
+        # =====================================
+        # DATA STORAGE ---- IMPLEMENTANDO MCU
+        # =====================================
+
+        # Sampling period (seconds)
+        # Example:
+        # 0.10 s = 100 ms
+        # Sampling frequency = 20 Hz
+
+        # self.Ts = 0.1
+
+        # # Number of points displayed in the graph
+        # self.num_points = 100
+
+        # # Time axis (seconds)
+        # self.x = [i * self.Ts for i in range(self.num_points)]
+
+        # # Signal values
+        # self.y = [0] * self.num_points
+
+
+        # # Axis X Range
+        # self.graphWidget.setXRange(
+        #     0,
+        #     self.num_points * self.Ts
+        # )
 
 
         # =====================================
