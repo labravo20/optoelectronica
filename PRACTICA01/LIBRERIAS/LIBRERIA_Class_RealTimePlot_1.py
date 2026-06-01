@@ -18,6 +18,7 @@ import pyqtgraph as pg
 
 #### --> Importación de docs tipo LIBRERIAS
 from LIBRERIAS import LIBRERIA_ComunicacionSerial as comSerial
+from LIBRERIAS import LIBRERIA_ProcesamientoData as procesamiento
 
 
 
@@ -166,7 +167,7 @@ class RealTimePlot(QMainWindow):
           
 
         # =====================================
-        # MICROCONTROLLER DATA
+        # MICROCONTROLLER DATA 
         # =====================================
 
         # --> CHECK IF THERE IS DATA AVAILABLE <--
@@ -183,6 +184,7 @@ class RealTimePlot(QMainWindow):
         #     # strip() removes spaces/newlines
 
         #     line = comSerial.ser.readline().decode().strip()
+        #             
 
         #     # =================================================
         #     # TRY TO CONVERT DATA TO FLOAT
@@ -190,8 +192,15 @@ class RealTimePlot(QMainWindow):
 
         #     try:
 
+        """ Alternativa para independizar lectura ---> IMPLEMENTAR CAMBIO PARA GRAPH 1"""
+            #     lux, pasos = line.split(',')
+
         #          # Convert incoming text into number
-        #         new_value = float(line)
+        #         numero_pasos = float(pasos)
+
+                # new_value = procesamiento.pasos_a_desplazamiento(
+                #     numero_pasos
+                # )
 
 
         #         # =============================================
