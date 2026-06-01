@@ -16,7 +16,7 @@ from PyQt5.QtCore import Qt
 
 
 # Import serial communication
-from LIBRERIAS import LIBRERIA_ComunicacionSerial as ser
+from LIBRERIAS import LIBRERIA_ComunicacionSerial as comSerial
 
 # Import menu class window
 from LIBRERIAS import LIBRERIA_Class_MenuWindow as menuWindow

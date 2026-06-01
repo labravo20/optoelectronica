@@ -8,7 +8,6 @@ print("Inicializando entorno de programación --> Interfaz Práctica 01 OPTOELEC
 """ INICIO SECCIÓN: Importación de librerias"""
 
 # Importación de librerias necesarias
-import matplotlib.pyplot as plt
 import sys
 
 # Libreria importada para 'PyQt5 components for the graphical interface'
