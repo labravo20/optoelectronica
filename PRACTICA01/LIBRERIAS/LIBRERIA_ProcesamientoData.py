@@ -22,17 +22,35 @@ def pasos_a_desplazamiento(numero_pasos,desplazamiento_paso):
 
 
 
-def longitud_Onda(desplazamiento,distancia_RedToSensor,ancho_Rejilla):
+
+def Angulo(desplazamiento,distancia_RedToSensor,ancho_Rejilla):
 
     """
-    Convierte número de pasos del motor
-    a desplazamiento físico.
+    Convierte desplazamiento del motor
+    en el ángulo de difracción asociado.
 
     """
 
     hipotenusa = np.sqrt((distancia_RedToSensor**2) + (desplazamiento)**2)
 
     senAngulo =  desplazamiento/hipotenusa
+
+    Angulo = np.arcsin(senAngulo) # OUTPUT por defecto en RADIANES
+
+    return senAngulo, Angulo
+
+
+
+
+
+def longitud_Onda(senAngulo,ancho_Rejilla):
+
+    """
+    Convierte ángulo de difracción 
+    a longitud de onda respectiva.
+
+    """
+
 
     longitudOnda = ancho_Rejilla*senAngulo
 
