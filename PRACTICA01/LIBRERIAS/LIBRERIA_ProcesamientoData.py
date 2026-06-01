@@ -82,18 +82,32 @@ def sensibilidad_Sensor(lambda_nm):
 
     ### LONGITUD DE ONDA
     lambda_tabla = [
+        500,
+        550,
         600,
+        650,
         700,
+        750,
         800,
-        900
+        850,
+        900,
+        950,
+        1000
     ]
 
     ### SENSIBILIDAD ASOCIADA
     S_tabla = [
+        0.00,
+        0.03,
         0.10,
+        0.25,
         0.40,
+        0.47,
         0.48,
-        0.35
+        0.45,
+        0.35,
+        0.25,
+        0.12
     ]
 
 
