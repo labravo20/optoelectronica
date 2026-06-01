@@ -23,7 +23,7 @@ def pasos_a_desplazamiento(numero_pasos,desplazamiento_paso):
 
 
 
-def Angulo(desplazamiento,distancia_RedToSensor,ancho_Rejilla):
+def Angulo(desplazamiento,distancia_RedToSensor):
 
     """
     Convierte desplazamiento del motor
