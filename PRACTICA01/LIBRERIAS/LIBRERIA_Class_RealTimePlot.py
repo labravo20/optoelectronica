@@ -1,3 +1,5 @@
+""" GRAPHIC --> Intensidad vs. Número de pasos"""
+
 
 """ INICIO SECCIÓN: Importación de librerias"""
 
@@ -63,7 +65,7 @@ class RealTimePlot(QMainWindow):
 
         # self.graphWidget.setLabel(
         #     'bottom',
-        #     'Time (s)'
+        #     'Step'
         # )
 
 
@@ -87,28 +89,15 @@ class RealTimePlot(QMainWindow):
         # DATA STORAGE ---- IMPLEMENTANDO MCU
         # =====================================
 
-        # Sampling period (seconds)
-        # Example:
-        # 0.10 s = 100 ms
-        # Sampling frequency = 20 Hz
-
-        # self.Ts = 0.1
 
         # # Number of points displayed in the graph
         # self.num_points = 100
 
-        # # Time axis (seconds)
-        # self.x = [i * self.Ts for i in range(self.num_points)]
+        # # Eje X -> pasos
+        # self.x = [0] * self.num_points
 
-        # # Signal values
+        # # Eje Y -> Signal values
         # self.y = [0] * self.num_points
-
-
-        # # Axis X Range
-        # self.graphWidget.setXRange(
-        #     0,
-        #     self.num_points * self.Ts
-        # )
 
 
         # =====================================
@@ -195,11 +184,21 @@ class RealTimePlot(QMainWindow):
 
 
         #          # Convert incoming text into number
-        #         new_value = float(pasos)
+        #         pasos = float(pasos)
 
+        #         new_value = float(lux)
+
+
+        #        # ==========================
+        #        # UPDATE X BUFFER (PASOS)
+        #        # ==========================
+
+        #         self.x = self.x[1:]
+        #         self.x.append(pasos)
+        
 
         #         # =============================================
-        #         # UPDATE DATA BUFFER
+        #         # UPDATE DATA BUFFER Y (lux)
         #         # =============================================
                   
         #           # Remove oldest value

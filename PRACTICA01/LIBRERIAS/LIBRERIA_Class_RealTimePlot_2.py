@@ -1,3 +1,5 @@
+""" GRAPHIC --> FACTOR DE CORRECCIÓN; Intensidad vs Longitud de onda"""
+
 
 """ INICIO SECCIÓN: Importación de librerias"""
 
@@ -48,7 +50,7 @@ class RealTimePlot(QMainWindow):
         # GRAPH APPEARANCE CONFIGURATION
         # =====================================
         self.graphWidget.setBackground('w') # White background
-        self.graphWidget.setTitle("Sensor Data") # Graph title
+        self.graphWidget.setTitle("Sensor Data Espectral Correction") # Graph title
 
         # Axis labels --- RANDOM:
         self.graphWidget.setLabel('left', 'Value 01')
@@ -88,28 +90,15 @@ class RealTimePlot(QMainWindow):
         # DATA STORAGE ---- IMPLEMENTANDO MCU
         # =====================================
 
-        # Sampling period (seconds)
-        # Example:
-        # 0.10 s = 100 ms
-        # Sampling frequency = 20 Hz
-
-        # self.Ts = 0.1
-
         # # Number of points displayed in the graph
         # self.num_points = 100
 
         # # Time axis (seconds)
-        # self.x = [i * self.Ts for i in range(self.num_points)]
+        # self.x = [0] * self.num_points
 
         # # Signal values
         # self.y = [0] * self.num_points
 
-
-        # # Axis X Range
-        # self.graphWidget.setXRange(
-        #     0,
-        #     self.num_points * self.Ts
-        # )
 
 
         # =====================================
@@ -156,7 +145,7 @@ class RealTimePlot(QMainWindow):
         # RANDOM SOMULATOR DATA (!!!!) --> Desactivar cuando mcu está conectado
         # =====================================
 
-        new_value = (np.random.normal())**3 # Generación artificial de data
+        new_value = (np.random.normal())**2 # Generación artificial de data
 
         # Update buffer
         self.y = self.y[1:]
@@ -196,7 +185,15 @@ class RealTimePlot(QMainWindow):
             #     lux, pasos = line.split(',')
 
         #          # Convert incoming text into number
-        #         numero_pasos = float(pasos)
+        #         pasos = float(pasos)
+
+        #         new_value = float(lux)
+
+
+        #        # ==========================
+        #        # UPDATE X BUFFER (PASOS)
+        #        # ==========================
+        
 
                 # # Convirtiendo el número de pasos en desplazamiento efectivo
                 # # DESPLAZAMIENTO DE UN PASO == 10E6 nm == 0.1 cm
@@ -214,20 +211,32 @@ class RealTimePlot(QMainWindow):
 
                 # # Convirtiendo coordenada angular en Longitud de Onda
                 # # ANCHO REJILLA == 1E5 nm == 1/100 cm
-                # new_value = procesamiento.longitud_Onda(
+                # longitudOnda = procesamiento.longitud_Onda(
                 #     senAngulo, 1E5
                 # )
+
+
+        #         self.x = self.x[1:]
+        #         self.x.append(longitudOnda)
 
 
         #         # =============================================
         #         # UPDATE DATA BUFFER
         #         # =============================================
                   
-        #           # Remove oldest value
+        #         # Aplicando factor de corrección asociado a sensor
+        #         
+        #         sensibilidad = procesamiento.corregir_espectro(longitudOnda)
+        # 
+        #         intensidadReal = new_value/sensibilidad
+
+
+
+        #         # Remove oldest value
         #         self.y = self.y[1:]
                   
         #           # Add newest value
-        #         self.y.append(new_value)
+        #         self.y.append(intensidadReal)
 
         #         # =============================================
         #         # UPDATE GRAPH VISUALLY
