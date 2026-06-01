@@ -24,10 +24,18 @@ class MenuWindow(QWidget):
 
         super().__init__()
 
+        # Window configuration
         self.setWindowTitle("Seleccionar visualización")
 
+        # ====================================================
+        # LAYOUT
+        # ====================================================
         layout = QVBoxLayout()
 
+
+        # ====================================================
+        # CONFIGURATION BUTTON
+        # ====================================================
         self.btn_graph1 = QPushButton("Intensidad vs Tiempo ")
         self.btn_graph2 = QPushButton("Intensidad vs Longitud de onda")
         self.btn_stop = QPushButton("STOP")
@@ -38,10 +46,15 @@ class MenuWindow(QWidget):
 
         self.setLayout(layout)
 
+        # Connect button to function
         self.btn_graph1.clicked.connect(self.open_graph1)
         self.btn_graph2.clicked.connect(self.open_graph2)
         self.btn_stop.clicked.connect(self.stop_measurement)
     
+    
+    # ========================================================
+    # START GRAPHIC 1 FUNCTION
+    # ========================================================
     def open_graph1(self):
 
         self.g1 = graph1.RealTimePlot()
@@ -49,12 +62,19 @@ class MenuWindow(QWidget):
         self.g1.show()
     
 
+    # ========================================================
+    # START GRAPHIC 2 FUNCTION
+    # ========================================================
     def open_graph2(self):
 
         self.g2 = graph2.RealTimePlot()
 
         self.g2.show()
 
+    
+    # ========================================================
+    # STOP FUNCTION
+    # ========================================================
     def stop_measurement(self):
 
         print("Stopping measurement...")
