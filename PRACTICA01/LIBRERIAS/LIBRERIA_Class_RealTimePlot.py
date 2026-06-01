@@ -190,8 +190,12 @@ class RealTimePlot(QMainWindow):
 
         #     try:
 
+        """ Alternativa para independizar lectura ---> IMPLEMENTAR CAMBIO PARA GRAPH 1"""
+            #     lux, pasos = line.split(',')
+
+
         #          # Convert incoming text into number
-        #         new_value = float(line)
+        #         new_value = float(pasos)
 
 
         #         # =============================================

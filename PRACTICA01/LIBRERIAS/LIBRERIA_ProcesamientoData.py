@@ -8,14 +8,6 @@ import numpy as np
 
 """ INICIO SECCIÓN ASOCIADA DEFINICIÓN DE FUNCIONES PARA PROCESAMIENTO DATA SENSOR  """
 
-def iluminance_to_Intensity(help):
-
-    
-
-    return help
-
-
-
 def pasos_a_desplazamiento(numero_pasos,desplazamiento_paso):
 
     """
@@ -78,3 +70,44 @@ def longitud_Onda(senAngulo,ancho_Rejilla):
 
     return longitudOnda
 
+
+
+
+""" INICIO SECCIÓN ASOCIADA CORRECCIÓN ESPECTRAL DATA SENSOR  """
+
+ 
+def sensibilidad_Sensor(lambda_nm):
+
+    # Definición de tabla asociada a curva de sensibilidad sensor
+
+    ### LONGITUD DE ONDA
+    lambda_tabla = [
+        600,
+        700,
+        800,
+        900
+    ]
+
+    ### SENSIBILIDAD ASOCIADA
+    S_tabla = [
+        0.10,
+        0.40,
+        0.48,
+        0.35
+    ]
+
+
+    # Retornando valor de sensibilidad correspondiente a la longitud de onda ingresada 
+    return np.interp(
+        lambda_nm,
+        lambda_tabla,
+        S_tabla
+    )
+
+
+
+def corregir_espectro(lux_medido, lambda_nm):
+
+    sensibilidad = sensibilidad_Sensor(lambda_nm)
+
+    return lux_medido / sensibilidad
