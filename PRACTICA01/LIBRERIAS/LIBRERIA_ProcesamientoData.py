@@ -8,6 +8,14 @@ import numpy as np
 
 """ INICIO SECCIÓN ASOCIADA DEFINICIÓN DE FUNCIONES PARA PROCESAMIENTO DATA SENSOR  """
 
+def iluminance_to_Intensity(help):
+
+    
+
+    return help
+
+
+
 def pasos_a_desplazamiento(numero_pasos,desplazamiento_paso):
 
     """
@@ -19,7 +27,6 @@ def pasos_a_desplazamiento(numero_pasos,desplazamiento_paso):
     desplazamiento = numero_pasos * desplazamiento_paso
 
     return desplazamiento
-
 
 
 
@@ -40,6 +47,21 @@ def Angulo(desplazamiento,distancia_RedToSensor):
     return senAngulo, Angulo
 
 
+
+def Angulo_Paso_Motor(numero_pasos,grados_paso):
+
+    """
+    Convierte pasos del motor (caracterizados por ángulo específico)
+    en el ángulo de difracción asociado.
+
+    """
+    angulo =  numero_pasos* grados_paso 
+
+    senAngulo =  np.sin(angulo)
+
+    
+
+    return senAngulo, angulo
 
 
 
