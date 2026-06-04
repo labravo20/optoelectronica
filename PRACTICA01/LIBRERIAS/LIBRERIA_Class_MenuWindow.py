@@ -11,8 +11,7 @@ from PyQt5.QtWidgets import (
 #### --> Importación de docs tipo LIBRERIAS
 
 from LIBRERIAS import LIBRERIA_ComunicacionSerial as comSerial
-from LIBRERIAS import LIBRERIA_Class_RealTimePlot as graph1
-from LIBRERIAS import LIBRERIA_Class_RealTimePlot_1 as graph2
+from LIBRERIAS import LIBRERIA_Class_GraphsWindow as graphWindow
 
 
 
@@ -23,9 +22,13 @@ class MenuWindow(QWidget):
     def __init__(self):
 
         super().__init__()
+                # Window configuration
+
+        
 
         # Window configuration
-        self.setWindowTitle("Seleccionar visualización")
+        self.setWindowTitle("Menú Principal")
+        self.setGeometry(300, 300, 500, 300)
 
         # ====================================================
         # LAYOUT
@@ -36,8 +39,8 @@ class MenuWindow(QWidget):
         # ====================================================
         # CONFIGURATION BUTTON
         # ====================================================
-        self.btn_graph1 = QPushButton("Intensidad vs Tiempo ")
-        self.btn_graph2 = QPushButton("Intensidad vs Longitud de onda")
+        self.btn_graph1 = QPushButton("Grasficar Intensidad ")
+        self.btn_graph2 = QPushButton("Calibración")
         self.btn_stop = QPushButton("STOP")
 
         layout.addWidget(self.btn_graph1)
@@ -47,29 +50,26 @@ class MenuWindow(QWidget):
         self.setLayout(layout)
 
         # Connect button to function
-        self.btn_graph1.clicked.connect(self.open_graph1)
-        self.btn_graph2.clicked.connect(self.open_graph2)
+        self.btn_graph1.clicked.connect(self.open_graphs)
+        self.btn_graph2.clicked.connect(self.open_calibration)
         self.btn_stop.clicked.connect(self.stop_measurement)
     
     
     # ========================================================
     # START GRAPHIC 1 FUNCTION
     # ========================================================
-    def open_graph1(self):
+    def open_graphs(self):
 
-        self.g1 = graph1.RealTimePlot()
-
-        self.g1.show()
+        self.graph_window = graphWindow.GraphsWindow()
+        self.graph_window.show()
     
 
     # ========================================================
     # START GRAPHIC 2 FUNCTION
     # ========================================================
-    def open_graph2(self):
+    def open_calibration(self):
 
-        self.g2 = graph2.RealTimePlot()
-
-        self.g2.show()
+        print("Start of calibration...")
 
     
     # ========================================================

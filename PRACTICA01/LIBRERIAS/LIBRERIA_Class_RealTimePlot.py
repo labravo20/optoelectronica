@@ -8,7 +8,7 @@
 import numpy as np
 
 # Libreria importada para 'PyQt5 components for the graphical interface'
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
 
 # Libreria importada para 'QTimer allows repetitive execution every X milliseconds'
 from PyQt5.QtCore import QTimer
@@ -26,12 +26,13 @@ from LIBRERIAS import LIBRERIA_ComunicacionSerial as comSerial
 """ Inicio sección: Definición Window REAL TIME PLOT class"""
 
 # NOTA: QMainWindow is a PyQt5 window template --> Diseño de clase a partir de este 'template'
-class RealTimePlot(QMainWindow):
+class RealTimePlot(QWidget):
 
     "Definiendo funcion 'init' --> Se ejecuta automáticamente cuando la ventana de la interfaz es creada"
     def __init__(self):
 
         super().__init__() # Inicialización de 'parent class'
+        layout = QVBoxLayout(self)
 
         self.setWindowTitle("Real-Time Data Visualization") # --> Definición de TITULO de la ventana
         self.setGeometry(100, 100, 800, 500) # Window size and position
@@ -42,7 +43,9 @@ class RealTimePlot(QMainWindow):
         # CREATE GRAPH WIDGET
         # =====================================
         self.graphWidget = pg.PlotWidget()  # Create a plotting area
-        self.setCentralWidget(self.graphWidget) # Put graph inside the main window
+        layout.addWidget(self.graphWidget)
+
+        #self.setCentralWidget(self.graphWidget) # Put graph inside the main window
 
 
         # =====================================

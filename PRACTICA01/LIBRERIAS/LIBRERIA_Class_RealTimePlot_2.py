@@ -8,7 +8,7 @@
 import numpy as np
 
 # Libreria importada para 'PyQt5 components for the graphical interface'
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
 
 # Libreria importada para 'QTimer allows repetitive execution every X milliseconds'
 from PyQt5.QtCore import QTimer
@@ -27,14 +27,15 @@ from LIBRERIAS import LIBRERIA_ProcesamientoData as procesamiento
 """ Inicio sección: Definición Window REAL TIME PLOT class"""
 
 # NOTA: QMainWindow is a PyQt5 window template --> Diseño de clase a partir de este 'template'
-class RealTimePlot(QMainWindow):
+class RealTimePlot(QWidget):
 
     "Definiendo funcion 'init' --> Se ejecuta automáticamente cuando la ventana de la interfaz es creada"
     def __init__(self):
 
         super().__init__() # Inicialización de 'parent class'
+        layout = QVBoxLayout(self)
 
-        self.setWindowTitle("Real-Time Data Visualization") # --> Definición de TITULO de la ventana
+        self.setWindowTitle("Real-Time Data Visualization Espectral Correction") # --> Definición de TITULO de la ventana
         self.setGeometry(100, 100, 800, 500) # Window size and position
                                              # (x position, y position, width, height)
 
@@ -43,7 +44,9 @@ class RealTimePlot(QMainWindow):
         # CREATE GRAPH WIDGET
         # =====================================
         self.graphWidget = pg.PlotWidget()  # Create a plotting area
-        self.setCentralWidget(self.graphWidget) # Put graph inside the main window
+        layout.addWidget(self.graphWidget)
+        
+        #self.setCentralWidget(self.graphWidget) # Put graph inside the main window
 
 
         # =====================================
@@ -145,7 +148,7 @@ class RealTimePlot(QMainWindow):
         # RANDOM SOMULATOR DATA (!!!!) --> Desactivar cuando mcu está conectado
         # =====================================
 
-        new_value = (np.random.normal())**2 # Generación artificial de data
+        new_value = (np.random.normal())**3 # Generación artificial de data
 
         # Update buffer
         self.y = self.y[1:]
