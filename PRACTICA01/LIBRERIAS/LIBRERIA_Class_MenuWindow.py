@@ -79,6 +79,6 @@ class MenuWindow(QWidget):
 
         print("Stopping measurement...")
 
-        #comSerial.ser.write(b'D')
+        comSerial.ser.write(b'D')
 
         

@@ -55,21 +55,21 @@ class RealTimePlot(QWidget):
         self.graphWidget.setTitle("Sensor Data") # Graph title
 
         # Axis labels --- RANDOM:
-        self.graphWidget.setLabel('left', 'Value')
-        self.graphWidget.setLabel('bottom', 'Samples')
+        # self.graphWidget.setLabel('left', 'Value')
+        # self.graphWidget.setLabel('bottom', 'Samples')
 
         
         
         # Axis labels --- MCU:
-        # self.graphWidget.setLabel(
-        #     'left',
-        #     'Illuminance (lux)'
-        # )
+        self.graphWidget.setLabel(
+            'left',
+            'Illuminance (lux)'
+        )
 
-        # self.graphWidget.setLabel(
-        #     'bottom',
-        #     'Step'
-        # )
+        self.graphWidget.setLabel(
+            'bottom',
+            'Step'
+        )
 
 
 
@@ -78,13 +78,13 @@ class RealTimePlot(QWidget):
         # # DATA STORAGE --- PRUEBA CON DATA RANDOM
         # =====================================       
         
-        # X-axis values:
-        # --> Creates numbers from 0 to 99
-        self.x = list(range(100))
+        # # X-axis values:
+        # # --> Creates numbers from 0 to 99
+        # self.x = list(range(100))
 
-        # Y-axis values:
-        # --> Creates numbers from 0 to 99
-        self.y = [0] * 100
+        # # Y-axis values:
+        # # --> Creates numbers from 0 to 99
+        # self.y = [0] * 100
 
 
 
@@ -93,14 +93,14 @@ class RealTimePlot(QWidget):
         # =====================================
 
 
-        # # Number of points displayed in the graph
-        # self.num_points = 100
+        # Number of points displayed in the graph
+        self.num_points = 100
 
-        # # Eje X -> pasos
-        # self.x = [0] * self.num_points
+        # Eje X -> pasos
+        self.x = [0] * self.num_points
 
-        # # Eje Y -> Signal values
-        # self.y = [0] * self.num_points
+        # Eje Y -> Signal values
+        self.y = [0] * self.num_points
 
 
         # =====================================
@@ -147,14 +147,14 @@ class RealTimePlot(QWidget):
         # RANDOM SOMULATOR DATA (!!!!) --> Desactivar cuando mcu está conectado
         # =====================================
 
-        new_value = np.random.normal() # Generación artificial de data
+        # new_value = np.random.normal() # Generación artificial de data
 
-        # Update buffer
-        self.y = self.y[1:]
-        self.y.append(new_value)
+        # # Update buffer
+        # self.y = self.y[1:]
+        # self.y.append(new_value)
 
-        # Update graph
-        self.data_line.setData(self.x, self.y)
+        # # Update graph
+        # self.data_line.setData(self.x, self.y)
           
 
         # =====================================
@@ -164,61 +164,61 @@ class RealTimePlot(QWidget):
         # --> CHECK IF THERE IS DATA AVAILABLE <--
         
         # In_waiting tells how many bytes are waiting in buffer
-        # if comSerial.ser.in_waiting:
+        if comSerial.ser.in_waiting:
 
-        #     # =================================================
-        #     # READ ONE LINE FROM SERIAL PORT
-        #     # =================================================
+            # =================================================
+            # READ ONE LINE FROM SERIAL PORT
+            # =================================================
 
-        #     # readline() reads until '\n'
-        #     # decode() converts bytes -> text
-        #     # strip() removes spaces/newlines
+            # readline() reads until '\n'
+            # decode() converts bytes -> text
+            # strip() removes spaces/newlines
 
-        #     line = comSerial.ser.readline().decode().strip()
+            line = comSerial.ser.readline().decode().strip()
 
-        #     # =================================================
-        #     # TRY TO CONVERT DATA TO FLOAT
-        #     # =================================================
+            # =================================================
+            # TRY TO CONVERT DATA TO FLOAT
+            # =================================================
 
-        #     try:
+            try:
 
-        """ Alternativa para independizar lectura ---> IMPLEMENTAR CAMBIO PARA GRAPH 1"""
-            #     lux, pasos = line.split(',')
-
-
-        #          # Convert incoming text into number
-        #         pasos = float(pasos)
-
-        #         new_value = float(lux)
+                """ Alternativa para independizar lectura ---> IMPLEMENTAR CAMBIO PARA GRAPH 1"""
+                lux, pasos = line.split(',')
 
 
-        #        # ==========================
-        #        # UPDATE X BUFFER (PASOS)
-        #        # ==========================
+                 # Convert incoming text into number
+                pasos = float(pasos)
 
-        #         self.x = self.x[1:]
-        #         self.x.append(pasos)
+                new_value = float(lux)
+
+
+               # ==========================
+               # UPDATE X BUFFER (PASOS)
+               # ==========================
+
+                self.x = self.x[1:]
+                self.x.append(pasos)
         
 
-        #         # =============================================
-        #         # UPDATE DATA BUFFER Y (lux)
-        #         # =============================================
+                # =============================================
+                # UPDATE DATA BUFFER Y (lux)
+                # =============================================
                   
-        #           # Remove oldest value
-        #         self.y = self.y[1:]
+                  # Remove oldest value
+                self.y = self.y[1:]
                   
-        #           # Add newest value
-        #         self.y.append(new_value)
+                  # Add newest value
+                self.y.append(new_value)
 
-        #         # =============================================
-        #         # UPDATE GRAPH VISUALLY
-        #         # =============================================
+                # =============================================
+                # UPDATE GRAPH VISUALLY
+                # =============================================
                 
-        #           # Replace old graph data with new data
-        #         self.data_line.setData(self.x, self.y)
+                  # Replace old graph data with new data
+                self.data_line.setData(self.x, self.y)
 
-        # # If conversion fails, ignore the error
-        #     except:
-        #         pass
+        # If conversion fails, ignore the error
+            except:
+                pass
 
 
