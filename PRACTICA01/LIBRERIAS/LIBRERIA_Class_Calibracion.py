@@ -75,7 +75,14 @@ class CalibrationWindow(QWidget):
         x_med = self.graph_window.g3.longitudes_medidasIntensidadCorrection
         y_med = self.graph_window.g3.intensidades_medidasIntensidadCorrection
 
-        error = procesamiento.error_relativo(x_med,y_med)
+        errorRelativoPromedio = procesamiento.error_relativo(x_med,y_med)
+        
+        # Mostrar mensaje
+        QMessageBox.information(
+            self,
+            "Resolution Information",
+            f"<b>Resolución:</b> {errorRelativoPromedio:.3f} %"
+        )
 
 
 

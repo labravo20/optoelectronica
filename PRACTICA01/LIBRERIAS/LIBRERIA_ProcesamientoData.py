@@ -133,15 +133,31 @@ def error_relativo(x_med,y_med):
         "C:/Users/lauri/Downloads/laura.csv/laura.csv",
         sep=";",
         skiprows=53,
-        header=None
+        header=None,
+        names=["LongitudOnda", "Intensidad"]
     )
 
-    tabla.columns = ["LongitudOnda", "Intensidad"]
+    # SIGUE SECCIÓN DE CONVERSIÓN A VALORES NUMÉRICOS
+    
+    tabla["LongitudOnda"] = pd.to_numeric(
+        tabla["LongitudOnda"],
+        errors="coerce"
+    )
 
+    tabla["Intensidad"] = pd.to_numeric(
+        tabla["Intensidad"],
+        errors="coerce"
+    )
+
+    #Eliminando filas de NO utilidad
+    tabla = tabla.dropna()
+
+    
+    #Conversión a arreglos de numpy
     x_ref = tabla["LongitudOnda"].to_numpy()
     y_ref = tabla["Intensidad"].to_numpy()
 
-
+    
     # Comenzando proceso de interpolacion 
     y_ref_interp = np.interp(x_med, x_ref,y_ref)
 
