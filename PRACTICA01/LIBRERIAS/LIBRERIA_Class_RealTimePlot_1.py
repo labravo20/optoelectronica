@@ -54,11 +54,6 @@ class RealTimePlot(QWidget):
         # =====================================
         self.graphWidget.setBackground('w') # White background
         self.graphWidget.setTitle("Sensor Data Espectral Information") # Graph title
-
-        # Axis labels --- RANDOM:
-        # self.graphWidget.setLabel('left', 'Value 01')
-        # self.graphWidget.setLabel('bottom', 'Samples 01')
-
         
         
         # Axis labels --- MCU:
@@ -81,11 +76,11 @@ class RealTimePlot(QWidget):
         
         # X-axis values:
         # --> Creates numbers from 0 to 99
-        # self.x = list(range(100))
+        self.x = list(range(100))
 
-        # # Y-axis values:
-        # # --> Creates numbers from 0 to 99
-        # self.y = [0] * 100
+        # Y-axis values:
+        # --> Creates numbers from 0 to 99
+        self.y = [0] * 100
 
 
 
@@ -93,14 +88,14 @@ class RealTimePlot(QWidget):
         # DATA STORAGE ---- IMPLEMENTANDO MCU
         # =====================================
 
-        # Number of points displayed in the graph
-        self.num_points = 100
+        # # Number of points displayed in the graph
+        # self.num_points = 100
 
-        # Time axis (seconds)
-        self.x = [0] * self.num_points
+        # # Time axis (seconds)
+        # self.x = [0] * self.num_points
 
-        # Signal values
-        self.y = [0] * self.num_points
+        # # Signal values
+        # self.y = [0] * self.num_points
 
 
 
@@ -148,100 +143,100 @@ class RealTimePlot(QWidget):
         # RANDOM SOMULATOR DATA (!!!!) --> Desactivar cuando mcu está conectado
         # =====================================
 
-        # new_value = (np.random.normal())**2 # Generación artificial de data
+        new_value = (np.random.normal())**2 # Generación artificial de data
 
-        # # Update buffer
-        # self.y = self.y[1:]
-        # self.y.append(new_value)
+        # Update buffer
+        self.y = self.y[1:]
+        self.y.append(new_value)
 
-        # # Update graph
-        # self.data_line.setData(self.x, self.y)
+        # Update graph
+        self.data_line.setData(self.x, self.y)
           
 
         # =====================================
         # MICROCONTROLLER DATA 
         # =====================================
 
-        # --> CHECK IF THERE IS DATA AVAILABLE <--
+        # # --> CHECK IF THERE IS DATA AVAILABLE <--
         
-        # In_waiting tells how many bytes are waiting in buffer
-        if comSerial.ser.in_waiting:
+        # # In_waiting tells how many bytes are waiting in buffer
+        # if comSerial.ser.in_waiting:
 
-            # =================================================
-            # READ ONE LINE FROM SERIAL PORT
-            # =================================================
+        #     # =================================================
+        #     # READ ONE LINE FROM SERIAL PORT
+        #     # =================================================
 
-            # readline() reads until '\n'
-            # decode() converts bytes -> text
-            # strip() removes spaces/newlines
+        #     # readline() reads until '\n'
+        #     # decode() converts bytes -> text
+        #     # strip() removes spaces/newlines
 
-            line = comSerial.ser.readline().decode().strip()
+        #     line = comSerial.ser.readline().decode().strip()
                     
 
-            # =================================================
-            # TRY TO CONVERT DATA TO FLOAT
-            # =================================================
+        #     # =================================================
+        #     # TRY TO CONVERT DATA TO FLOAT
+        #     # =================================================
 
-            try:
+        #     try:
 
-                """ Alternativa para independizar lectura ---> IMPLEMENTAR CAMBIO PARA GRAPH 1"""
-                lux, pasos = line.split(',')
+        #         """ Alternativa para independizar lectura ---> IMPLEMENTAR CAMBIO PARA GRAPH 1"""
+        #         lux, pasos = line.split(',')
 
-                 # Convert incoming text into number
-                pasos = float(pasos)
+        #          # Convert incoming text into number
+        #         pasos = float(pasos)
 
-                new_value = float(lux)
+        #         new_value = float(lux)
 
 
-               # ==========================
-               # UPDATE X BUFFER (PASOS)
-               # ==========================
+        #        # ==========================
+        #        # UPDATE X BUFFER (PASOS)
+        #        # ==========================
         
 
-                # Convirtiendo el número de pasos en desplazamiento efectivo
-                # DESPLAZAMIENTO DE UN PASO == 10E6 nm == 0.1 cm
-                desplazamiento = procesamiento.pasos_a_desplazamiento(
-                    3000, 10E6
-                )
+        #         # Convirtiendo el número de pasos en desplazamiento efectivo
+        #         # DESPLAZAMIENTO DE UN PASO == 10E6 nm == 0.1 cm
+        #         desplazamiento = procesamiento.pasos_a_desplazamiento(
+        #             3000,10E6
+        #         )
 
                 
-                # Convirtiendo desplazamiento efectivo en coordenada angular
-                # DISTANCIA ENTRE RED Y SENSOR == 1.5E8 nm == 15 cm
-                senAngulo,angulo = procesamiento.Angulo(
-                    desplazamiento, 1.5E8
-                )
+        #         # Convirtiendo desplazamiento efectivo en coordenada angular
+        #         # DISTANCIA ENTRE RED Y SENSOR == 1.5E8 nm == 15 cm
+        #         senAngulo,angulo = procesamiento.Angulo(
+        #             desplazamiento
+        #         )
 
 
-                # Convirtiendo coordenada angular en Longitud de Onda
-                # ANCHO REJILLA == 1E5 nm == 1/100 cm
-                longitudOnda = procesamiento.longitud_Onda(
-                    senAngulo, 1E5
-                )
+        #         # Convirtiendo coordenada angular en Longitud de Onda
+        #         # ANCHO REJILLA == 1E5 nm == 1/100 cm
+        #         longitudOnda = procesamiento.longitud_Onda(
+        #             senAngulo, 1E5
+        #         )
 
 
-                self.x = self.x[1:]
-                self.x.append(longitudOnda)
+        #         self.x = self.x[1:]
+        #         self.x.append(longitudOnda)
 
 
-                # =============================================
-                # UPDATE DATA BUFFER
-                # =============================================
+        #         # =============================================
+        #         # UPDATE DATA BUFFER
+        #         # =============================================
                   
-                  # Remove oldest value
-                self.y = self.y[1:]
+        #           # Remove oldest value
+        #         self.y = self.y[1:]
                   
-                  # Add newest value
-                self.y.append(new_value)
+        #           # Add newest value
+        #         self.y.append(new_value)
 
-                # =============================================
-                # UPDATE GRAPH VISUALLY
-                # =============================================
+        #         # =============================================
+        #         # UPDATE GRAPH VISUALLY
+        #         # =============================================
                 
-                  # Replace old graph data with new data
-                self.data_line.setData(self.x, self.y)
+        #           # Replace old graph data with new data
+        #         self.data_line.setData(self.x, self.y)
 
-        # If conversion fails, ignore the error
-            except:
-                pass
+        # # If conversion fails, ignore the error
+        #     except:
+        #         pass
 
 

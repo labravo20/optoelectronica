@@ -12,6 +12,7 @@ from PyQt5.QtWidgets import (
 
 from LIBRERIAS import LIBRERIA_ComunicacionSerial as comSerial
 from LIBRERIAS import LIBRERIA_Class_GraphsWindow as graphWindow
+from LIBRERIAS import LIBRERIA_Class_Clibracion as calibration
 
 
 
@@ -69,7 +70,8 @@ class MenuWindow(QWidget):
     # ========================================================
     def open_calibration(self):
 
-        print("Start of calibration...")
+          self.calibration_window = calibration.CalibrationWindow()
+          self.calibration_window.show()
 
     
     # ========================================================
@@ -79,6 +81,6 @@ class MenuWindow(QWidget):
 
         print("Stopping measurement...")
 
-        comSerial.ser.write(b'D')
+        #comSerial.ser.write(b'D')
 
         

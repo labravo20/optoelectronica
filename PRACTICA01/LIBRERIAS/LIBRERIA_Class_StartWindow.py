@@ -108,7 +108,7 @@ class StartWindow(QWidget):
         # SEND CHARACTER TO MICROCONTROLLER
         # ====================================================
 
-        comSerial.ser.write(b'S')
+        #comSerial.ser.write(b'S')
 
 
         # ====================================================

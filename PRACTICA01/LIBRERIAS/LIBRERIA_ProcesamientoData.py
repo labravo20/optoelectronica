@@ -22,7 +22,7 @@ def pasos_a_desplazamiento(numero_pasos,desplazamiento_paso):
 
 
 
-def Angulo(desplazamiento,distancia_RedToSensor):
+def Angulo(desplazamiento,distancia_RedToSensor = 5E7): #SEPARACION RED-SENSOR ES DE APROX 5E7nm=50mm
 
     """
     Convierte desplazamiento del motor
@@ -40,24 +40,8 @@ def Angulo(desplazamiento,distancia_RedToSensor):
 
 
 
-def Angulo_Paso_Motor(numero_pasos,grados_paso):
 
-    """
-    Convierte pasos del motor (caracterizados por ángulo específico)
-    en el ángulo de difracción asociado.
-
-    """
-    angulo =  numero_pasos* grados_paso 
-
-    senAngulo =  np.sin(angulo)
-
-    
-
-    return senAngulo, angulo
-
-
-
-def longitud_Onda(senAngulo,ancho_Rejilla):
+def longitud_Onda(senAngulo,ancho_Rejilla = 1E3): #PERIODO SENSOR ES DE APROX 1000nm
 
     """
     Convierte ángulo de difracción 
@@ -125,3 +109,18 @@ def corregir_espectro(lux_medido, lambda_nm):
     sensibilidad = sensibilidad_Sensor(lambda_nm)
 
     return lux_medido / sensibilidad
+
+
+
+""" INICIO SECCIÓN ASOCIADA DEFINICIÓN DE FUNCIONES PARA CALIBRACIÓN  """
+
+def resolucion(desplazamiento_Minimo = 2.208E6,distancia_RedToSensor = 5E7,ancho_Rejilla = 1E3):  
+    #PERIODO SENSOR ES DE APROX 1000nm
+    #SEPARACION RED-SENSOR ES DE APROX 5E7nm=50mm
+
+    senAngulo,angulo = Angulo(desplazamiento_Minimo,distancia_RedToSensor)
+    
+    resolucionLongOnda = longitud_Onda(senAngulo,ancho_Rejilla)
+
+    return resolucionLongOnda
+
