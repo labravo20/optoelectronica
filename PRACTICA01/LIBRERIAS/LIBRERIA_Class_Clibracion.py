@@ -3,8 +3,11 @@
 from PyQt5.QtWidgets import (
     QWidget,
     QPushButton,
-    QVBoxLayout
+    QVBoxLayout,
+    QMessageBox
 )
+
+
 
 #### --> Importación de docs tipo LIBRERIAS
 from LIBRERIAS import LIBRERIA_ProcesamientoData as procesamiento
@@ -35,15 +38,25 @@ class CalibrationWindow(QWidget):
         self.setLayout(layout)
 
         # Conectar funciones
-        self.btn_cal1.clicked.connect(self.calibration1)
+        self.btn_cal1.clicked.connect(self.resolucion)
         self.btn_cal2.clicked.connect(self.calibration2)
         self.btn_cal3.clicked.connect(self.calibration3)
 
-    def calibration1(self):
-        print("Ejecutando resolucion")
+    def resolucion(self):
+        
+        # Ejemplo de cálculo
+        resolucion = procesamiento.resolucion()
+
+        # Mostrar mensaje
+        QMessageBox.information(
+            self,
+            "Resolution Information",
+            f"<b>Resolution:</b> {resolucion:.3f} nm"
+        )
 
     def calibration2(self):
         print("Ejecutando calibración 2")
 
     def calibration3(self):
         print("Ejecutando calibración 3")
+

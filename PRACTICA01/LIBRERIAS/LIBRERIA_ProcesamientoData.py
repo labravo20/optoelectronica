@@ -8,7 +8,7 @@ import numpy as np
 
 """ INICIO SECCIÓN ASOCIADA DEFINICIÓN DE FUNCIONES PARA PROCESAMIENTO DATA SENSOR  """
 
-def pasos_a_desplazamiento(numero_pasos,desplazamiento_paso):
+def pasos_a_desplazamiento(numero_pasos,desplazamiento_paso = 3.8528E4): # DESPLAZAMIENTO DEL PASO EN nm
 
     """
     Convierte número de pasos del motor
@@ -41,7 +41,7 @@ def Angulo(desplazamiento,distancia_RedToSensor = 5E7): #SEPARACION RED-SENSOR E
 
 
 
-def longitud_Onda(senAngulo,ancho_Rejilla = 1E3): #PERIODO SENSOR ES DE APROX 1000nm
+def longitud_Onda(senAngulo,ancho_Rejilla = 1E3): #PERIODO REJILLA (1000ln/mm) ES DE APROX 1000nm
 
     """
     Convierte ángulo de difracción 
@@ -114,13 +114,13 @@ def corregir_espectro(lux_medido, lambda_nm):
 
 """ INICIO SECCIÓN ASOCIADA DEFINICIÓN DE FUNCIONES PARA CALIBRACIÓN  """
 
-def resolucion(desplazamiento_Minimo = 2.208E6,distancia_RedToSensor = 5E7,ancho_Rejilla = 1E3):  
-    #PERIODO SENSOR ES DE APROX 1000nm
-    #SEPARACION RED-SENSOR ES DE APROX 5E7nm=50mm
-
-    senAngulo,angulo = Angulo(desplazamiento_Minimo,distancia_RedToSensor)
+def resolucion(numeroPasos = 1):  
     
-    resolucionLongOnda = longitud_Onda(senAngulo,ancho_Rejilla)
+    desplazamiento_Minimo = pasos_a_desplazamiento(numeroPasos)
+    
+    senAngulo,angulo = Angulo(desplazamiento_Minimo)
+    
+    resolucionLongOnda = longitud_Onda(senAngulo)
 
     return resolucionLongOnda
 
