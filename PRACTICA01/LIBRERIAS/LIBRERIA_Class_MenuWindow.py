@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import (
 
 from LIBRERIAS import LIBRERIA_ComunicacionSerial as comSerial
 from LIBRERIAS import LIBRERIA_Class_GraphsWindow as graphWindow
-from LIBRERIAS import LIBRERIA_Class_Clibracion as calibration
+from LIBRERIAS import LIBRERIA_Class_Calibracion as calibration
 
 
 
