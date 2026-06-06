@@ -42,18 +42,15 @@ class MenuWindow(QWidget):
         # ====================================================
         self.btn_graph1 = QPushButton("Grasficar Intensidad ")
         self.btn_graph2 = QPushButton("Calibración")
-        self.btn_stop = QPushButton("STOP")
 
         layout.addWidget(self.btn_graph1)
         layout.addWidget(self.btn_graph2)
-        layout.addWidget(self.btn_stop)
 
         self.setLayout(layout)
 
         # Connect button to function
         self.btn_graph1.clicked.connect(self.open_graphs)
         self.btn_graph2.clicked.connect(self.open_calibration)
-        self.btn_stop.clicked.connect(self.stop_measurement)
     
     
     # ========================================================
@@ -74,13 +71,4 @@ class MenuWindow(QWidget):
           self.calibration_window.show()
 
     
-    # ========================================================
-    # STOP FUNCTION
-    # ========================================================
-    def stop_measurement(self):
-
-        print("Stopping measurement...")
-
-        #comSerial.ser.write(b'D')
-
         
