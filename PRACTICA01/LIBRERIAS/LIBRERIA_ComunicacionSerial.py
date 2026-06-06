@@ -8,13 +8,13 @@ import serial
 
 # Creando Conexión Serial
 # --> Inicializa comunicación con el microcontrolador (mcu) <--
-# ser = serial.Serial(
+ser = serial.Serial(
     
-#     ### IMPORTANTE VERIFICAR PUERTO ASOCIADO AL mcu EN USO 
-#     port='COM3', 
+    ### IMPORTANTE VERIFICAR PUERTO ASOCIADO AL mcu EN USO 
+    port='COM3', 
     
-#     # Velocidad de comunicación --> Valor estándar establecido en el mcu
-#     baudrate=115200
-# )
+    # Velocidad de comunicación --> Valor estándar establecido en el mcu
+    baudrate=115200
+)
  
 
