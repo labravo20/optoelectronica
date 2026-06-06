@@ -2,7 +2,7 @@
 """ Importación de librerias """
 
 import numpy as np
-
+import pandas as pd
 
 
 
@@ -123,4 +123,36 @@ def resolucion(numeroPasos = 1):
     resolucionLongOnda = longitud_Onda(senAngulo)
 
     return resolucionLongOnda
+
+
+
+def error_relativo(x_med,y_med):
+    
+    # IMPORTANDO DOC. CON INFO ESPECTROMETRO THORLABS
+    tabla = pd.read_csv(
+        "C:/Users/lauri/Downloads/laura.csv/laura.csv",
+        sep=";",
+        skiprows=53,
+        header=None
+    )
+
+    tabla.columns = ["LongitudOnda", "Intensidad"]
+
+    x_ref = tabla["LongitudOnda"].to_numpy()
+    y_ref = tabla["Intensidad"].to_numpy()
+
+
+    # Comenzando proceso de interpolacion 
+    y_ref_interp = np.interp(x_med, x_ref,y_ref)
+
+    #Calculando porcentaje de error relativo PUNTO A PUNTO
+    error_relativo = np.abs(
+        (y_med - y_ref_interp)
+        / y_ref_interp) * 100
+    
+    #Calculando error relativo PROMEDIO
+    error_promedio = np.mean(error_relativo)
+
+    return error_promedio
+
 

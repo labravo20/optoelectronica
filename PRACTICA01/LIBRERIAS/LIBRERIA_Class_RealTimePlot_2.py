@@ -40,6 +40,9 @@ class RealTimePlot(QWidget):
                                              # (x position, y position, width, height)
 
 
+        self.longitudes_medidasIntensidadCorrection = []
+        self.intensidades_medidasIntensidadCorrection = []
+        
         # =====================================
         # CREATE GRAPH WIDGET
         # =====================================
@@ -151,6 +154,10 @@ class RealTimePlot(QWidget):
 
         # Update graph
         self.data_line.setData(self.x, self.y)
+
+        self.longitudes_medidasIntensidadCorrection = self.x.copy()
+        self.intensidades_medidasIntensidadCorrection = self.y.copy()
+
           
 
         # =====================================
@@ -242,9 +249,15 @@ class RealTimePlot(QWidget):
                 
         #           # Replace old graph data with new data
         #         self.data_line.setData(self.x, self.y)
+        
+        #         self.longitudes_medidasIntensidadCorrection = self.x.copy()
+        #         self.intensidades_medidasIntensidadCorrection = self.y.copy()
 
         # # If conversion fails, ignore the error
         #     except:
         #         pass
+
+
+
 
 

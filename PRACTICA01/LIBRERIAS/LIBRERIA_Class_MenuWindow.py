@@ -67,7 +67,10 @@ class MenuWindow(QWidget):
     # ========================================================
     def open_calibration(self):
 
-          self.calibration_window = calibration.CalibrationWindow()
+          self.calibration_window = calibration.CalibrationWindow(
+               self.graph_window
+          )
+          
           self.calibration_window.show()
 
     

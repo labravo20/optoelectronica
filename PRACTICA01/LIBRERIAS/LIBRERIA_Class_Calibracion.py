@@ -23,9 +23,12 @@ from LIBRERIAS import LIBRERIA_ComunicacionSerial as comSerial
 # ====================================================
 class CalibrationWindow(QWidget):
 
-    def __init__(self):
+    def __init__(self, graph_window):
         super().__init__()
 
+        self.graph_window = graph_window
+
+        
         self.setWindowTitle("Menú de Calibración")
         self.resize(300, 200)
 
@@ -36,12 +39,14 @@ class CalibrationWindow(QWidget):
         self.btn_cal3 = QPushButton("Precisión")
         self.btn_cal4 = QPushButton("Histéresis")
         self.btn_cal5 = QPushButton("Desviación Estándar")
+        self.btn_cal6 = QPushButton("Incertidumbre")
 
         layout.addWidget(self.btn_cal1)
         layout.addWidget(self.btn_cal2)
         layout.addWidget(self.btn_cal3)
         layout.addWidget(self.btn_cal4)
         layout.addWidget(self.btn_cal5)
+        layout.addWidget(self.btn_cal6)
 
         self.setLayout(layout)
 
@@ -51,6 +56,7 @@ class CalibrationWindow(QWidget):
         self.btn_cal3.clicked.connect(self.precision)
         self.btn_cal4.clicked.connect(self.histeresis)
         self.btn_cal5.clicked.connect(self.standarDeviation)
+        self.btn_cal6.clicked.connect(self.incertidumbre)
 
     def resolucion(self):
         
@@ -65,7 +71,13 @@ class CalibrationWindow(QWidget):
         )
 
     def error_Relativo(self):
-        print("Ejecutando Error relativo")
+
+        x_med = self.graph_window.g3.longitudes_medidasIntensidadCorrection
+        y_med = self.graph_window.g3.intensidades_medidasIntensidadCorrection
+
+        error = procesamiento.error_relativo(x_med,y_med)
+
+
 
     def precision(self):
 
@@ -91,5 +103,8 @@ class CalibrationWindow(QWidget):
 
     def standarDeviation(self):
         print("Ejecutando Desviación Estándar")
+
+    def incertidumbre(self):
+        print("Ejecutando Incertidumbre")
 
 
