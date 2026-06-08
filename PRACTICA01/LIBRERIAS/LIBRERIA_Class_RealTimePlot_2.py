@@ -203,24 +203,15 @@ class RealTimePlot(QWidget):
         
 
                 # Convirtiendo el número de pasos en desplazamiento efectivo
-                # DESPLAZAMIENTO DE UN PASO == 10E6 nm == 0.1 cm
-                desplazamiento = procesamiento.pasos_a_desplazamiento(
-                    self.numero_pasos
-                )
+                desplazamiento = procesamiento.pasos_a_desplazamiento(self.numero_pasos)
 
                 
                 # Convirtiendo desplazamiento efectivo en coordenada angular
-                # DISTANCIA ENTRE RED Y SENSOR == 1.5E8 nm == 15 cm
-                senAngulo,angulo = procesamiento.Angulo(
-                    desplazamiento
-                )
+                senAngulo,angulo = procesamiento.Angulo(desplazamiento)
 
 
                 # Convirtiendo coordenada angular en Longitud de Onda
-                # ANCHO REJILLA == 1E5 nm == 1/100 cm
-                longitudOnda = procesamiento.longitud_Onda(
-                    senAngulo
-                )
+                longitudOnda = procesamiento.longitud_Onda(senAngulo)
 
 
                 self.x = self.x[1:]

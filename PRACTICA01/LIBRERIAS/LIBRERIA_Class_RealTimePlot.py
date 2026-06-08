@@ -196,7 +196,6 @@ class RealTimePlot(QWidget):
 
                 
                 # Convirtiendo desplazamiento efectivo en coordenada angular
-                # DISTANCIA ENTRE RED Y SENSOR == 1.5E8 nm == 15 cm
                 senAngulo,angulo = procesamiento.Angulo(desplazamiento)
 
                 self.x = self.x[1:]

@@ -40,7 +40,7 @@ class MenuWindow(QWidget):
         # ====================================================
         # CONFIGURATION BUTTON
         # ====================================================
-        self.btn_graph1 = QPushButton("Grasficar Intensidad ")
+        self.btn_graph1 = QPushButton("Graficar Intensidad ")
         self.btn_graph2 = QPushButton("Calibración")
 
         layout.addWidget(self.btn_graph1)
