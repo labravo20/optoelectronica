@@ -105,13 +105,14 @@ def corregir_espectro(lux_medido, lambda_nm):
 
 """ INICIO SECCIÓN ASOCIADA DEFINICIÓN DE FUNCIONES PARA CALIBRACIÓN  """
 
+
 def resolucion(numeroPasos = 1):  
     
-    desplazamiento_Minimo = pasos_a_desplazamiento(numeroPasos)
+    desplazamiento_Minimo = pasos_a_desplazamiento(numeroPasos) #Calcula el desplazamiento asociado a UN paso del motor
     
-    senAngulo,angulo = Angulo(desplazamiento_Minimo)
+    senAngulo,angulo = Angulo(desplazamiento_Minimo) # Calcula las coordenadas angulares asociadass al desplazamiento del motor
     
-    resolucionLongOnda = longitud_Onda(senAngulo)
+    resolucionLongOnda = longitud_Onda(senAngulo) # Calcula el valor asociada a mínima separación entre longitudes de óptica para resolver como independientes
 
     return resolucionLongOnda
 
@@ -165,5 +166,44 @@ def error_relativo(x_med,y_med):
     error_promedio = np.mean(error_relativo)
 
     return error_promedio
+
+
+
+def procesar_precision(espectros):
+
+    intensidades = []
+
+    for barrido in espectros:
+
+        intensidades.append(
+            barrido["intensidades"]
+        )
+    
+    #CONVIRTIENDO DATA DE INTENSIDADES EN UNA REPRESENTACION MATRICIAL
+    intensidades = np.array(intensidades)
+
+    #Calculando media de valores de intensidad recolectados
+    media = np.mean(
+    intensidades,
+    axis=0
+    )
+
+
+    #Calculando DESVIACION ESTANDAR de valores de intensidad recolectados
+    desviacion = np.std(
+    intensidades,
+    axis=0
+    )
+
+    # DEFINIENDO DATA ASOCIADA A EJE X 
+    longitudes = espectros[0]["longitudes"]
+
+
+    return (
+    longitudes,
+    media,
+    desviacion
+    )
+
 
 

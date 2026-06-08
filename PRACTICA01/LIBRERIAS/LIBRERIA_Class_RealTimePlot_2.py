@@ -43,10 +43,27 @@ class RealTimePlot(QWidget):
         # Contador de pasos
         self.numero_pasos = 0
 
+        # Contador de número de barridos para PRECISIÓN
+        self.numero_barridos_precision = 0
+
         self.longitudes_medidasIntensidadCorrection = []
         self.intensidades_medidasIntensidadCorrection = []
         
+
+        # ===========================================================================================================
+        # VARIABLES PARA ESTUDIO DE PRECISIÓN
         # =====================================
+
+        # Almacena todos los barridos realizados
+        self.espectros_precision = []
+
+        # Barrido actualmente en adquisición
+        self.longitudes_barrido_actual = []
+        self.intensidades_barrido_actual = []
+
+
+
+        # ================================================================================================================ 
         # CREATE GRAPH WIDGET
         # =====================================
         self.graphWidget = pg.PlotWidget()  # Create a plotting area
@@ -142,6 +159,50 @@ class RealTimePlot(QWidget):
 
 
 
+    "Definiendo funcion guardado DATA barridos"
+    def guardar_barrido_precision(self):
+
+        #ANEXANDO DATA EN DICCIONARIO GLOBAL
+        self.espectros_precision.append({
+
+            "longitudes":
+            self.longitudes_barrido_actual.copy(),
+
+            "intensidades":
+            self.intensidades_barrido_actual.copy()
+        })
+
+
+        self.numero_barridos_precision += 1 #AUMENTANDO CONTADOR DE NÚMERO DE BARRIDOS
+
+        
+        #Print de verificación cantidad de barridos realizados
+        print(
+            f"Barrido almacenado. Total = "
+            f"{len(self.espectros_precision)}"
+        )
+
+        
+        #Limpiando listas de almacenamiento por barrido
+        self.longitudes_barrido_actual.clear()
+        self.intensidades_barrido_actual.clear()
+
+
+        # AL FINALIZAR BARRIDOS, GUARDA DATA RECOLECTADA EN ATRIBUTOS DE LA CLASE
+        if self.numero_barridos_precision == 3:
+
+            (
+                self.longitudes_precision,
+                self.media_precision,
+                self.desviacion_precision
+            ) = procesamiento.procesar_precision(
+                self.espectros_precision
+            ) # --> Llamando función para procesamiento de data precision
+
+            print("Procesamiento de precisión finalizado")
+
+    
+
     "Definiendo funcion 'update' --> Se ejecuta para la actualización constante del gráfico de la interfaz"
     def update_plot(self):
 
@@ -181,6 +242,13 @@ class RealTimePlot(QWidget):
             # strip() removes spaces/newlines
 
             line = comSerial.ser.readline().decode().strip()
+
+
+            #VERIFICANDO FINALIZACIÓN DEL CICLO DE MEDICIÓN (utilidad para HISTÉRESIS y PRECISIÓN)
+            if line == "F":
+                
+                self.guardar_barrido_precision()
+                return
                     
 
             # =================================================
@@ -236,21 +304,33 @@ class RealTimePlot(QWidget):
                   # Add newest value
                 self.y.append(intensidadReal)
 
-                # =============================================
+                # ==================================================================================================
+                # ALMACENAMIENTO PARA PRECISIÓN
+                # =====================================
+
+                self.longitudes_barrido_actual.append(
+                    longitudOnda
+                )
+
+                self.intensidades_barrido_actual.append(
+                    intensidadReal
+                )
+                
+                
+                # ======================================================================================================
                 # UPDATE GRAPH VISUALLY
                 # =============================================
                 
                   # Replace old graph data with new data
                 self.data_line.setData(self.x, self.y)
         
+                
+                # ALMACENANDO DATA PARA ERROR RELATIVO
                 self.longitudes_medidasIntensidadCorrection = self.x.copy()
                 self.intensidades_medidasIntensidadCorrection = self.y.copy()
 
         # If conversion fails, ignore the error
             except:
                 pass
-
-
-
 
 
