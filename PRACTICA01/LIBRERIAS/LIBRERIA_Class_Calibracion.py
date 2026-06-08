@@ -84,8 +84,6 @@ class CalibrationWindow(QWidget):
             f"<b>Resolución:</b> {errorRelativoPromedio:.3f} %"
         )
 
-
-
     def precision(self):
 
         print("Sending precision command to MCU...")

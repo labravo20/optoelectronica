@@ -66,32 +66,20 @@ def sensibilidad_Sensor(lambda_nm):
 
     ### LONGITUD DE ONDA
     lambda_tabla = [
-        500,
-        550,
-        600,
-        650,
-        700,
-        750,
-        800,
-        850,
-        900,
-        950,
-        1000
+        500, 525, 550, 575, 600,
+        625, 650, 675, 700, 725,
+        750, 775, 800, 825, 850,
+        875, 900, 925, 950, 975,
+        1000, 1025, 1050, 1075, 1100
     ]
 
     ### SENSIBILIDAD ASOCIADA
     S_tabla = [
-        0.00,
-        0.03,
-        0.10,
-        0.25,
-        0.40,
-        0.47,
-        0.48,
-        0.45,
-        0.35,
-        0.25,
-        0.12
+        0.00, 0.01, 0.03, 0.07, 0.12,
+        0.18, 0.25, 0.31, 0.37, 0.42,
+        0.46, 0.48, 0.48, 0.47, 0.45,
+        0.42, 0.38, 0.33, 0.27, 0.21,
+        0.15, 0.10, 0.06, 0.03, 0.01
     ]
 
 
@@ -107,6 +95,9 @@ def sensibilidad_Sensor(lambda_nm):
 def corregir_espectro(lux_medido, lambda_nm):
 
     sensibilidad = sensibilidad_Sensor(lambda_nm)
+
+    # Evitar división por valores muy pequeños
+    sensibilidad = max(sensibilidad, 0.01)
 
     return lux_medido / sensibilidad
 
@@ -158,12 +149,16 @@ def error_relativo(x_med,y_med):
     y_ref = tabla["Intensidad"].to_numpy()
 
     
+    # NORMALIZANDO AMBAS CURVAS DE DATA
+    y_ref_norm = y_ref / np.max(y_ref)
+    y_med_norm = y_med / np.max(y_med)
+    
     # Comenzando proceso de interpolacion 
-    y_ref_interp = np.interp(x_med, x_ref,y_ref)
+    y_ref_interp = np.interp(x_med, x_ref,y_ref_norm)
 
     #Calculando porcentaje de error relativo PUNTO A PUNTO
     error_relativo = np.abs(
-        (y_med - y_ref_interp)
+        (y_med_norm - y_ref_interp)
         / y_ref_interp) * 100
     
     #Calculando error relativo PROMEDIO
