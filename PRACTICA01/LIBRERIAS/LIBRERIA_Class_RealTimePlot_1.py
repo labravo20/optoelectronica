@@ -39,6 +39,8 @@ class RealTimePlot(QWidget):
         self.setGeometry(100, 100, 800, 500) # Window size and position
                                              # (x position, y position, width, height)
 
+                                                     # Contador de pasos
+        self.numero_pasos = 0
 
         # =====================================
         # CREATE GRAPH WIDGET
@@ -121,23 +123,10 @@ class RealTimePlot(QWidget):
         # # TIMER CONFIGURATION
         # =====================================               
 
-        # QTimer repeatedly calls a function
-        self.timer = QTimer()
-
-        # Execute every 50 milliseconds
-        self.timer.setInterval(50)  
-
-        # Connect timer to update function
-        # Every 50 ms -> update_plot() runs
-        self.timer.timeout.connect(self.update_plot)
-
-        # Start timer
-        self.timer.start()
-
 
 
     "Definiendo funcion 'update' --> Se ejecuta para la actualización constante del gráfico de la interfaz"
-    def update_plot(self):
+    def update_plot(self,intensidad):
 
         # =====================================
         # RANDOM SOMULATOR DATA (!!!!) --> Desactivar cuando mcu está conectado
@@ -156,31 +145,6 @@ class RealTimePlot(QWidget):
         # =====================================
         # MICROCONTROLLER DATA 
         # =====================================
-
-        # --> CHECK IF THERE IS DATA AVAILABLE <--
-        
-        # In_waiting tells how many bytes are waiting in buffer
-        if comSerial.ser.in_waiting:
-
-            # =================================================
-            # READ ONE LINE FROM SERIAL PORT
-            # =================================================
-
-            # readline() reads until '\n'
-            # decode() converts bytes -> text
-            # strip() removes spaces/newlines
-
-            line = comSerial.ser.readline().decode().strip()
-                    
-
-            # =================================================
-            # TRY TO CONVERT DATA TO FLOAT
-            # =================================================
-
-            try:
-
-                # Convert incoming text into number
-                intensidad = float(line)
                 
                 # Cada lectura recibida equivale a un paso
                 self.numero_pasos += 1
@@ -201,8 +165,10 @@ class RealTimePlot(QWidget):
                 longitudOnda = procesamiento.longitud_Onda(senAngulo)
 
 
+
                 self.x = self.x[1:]
                 self.x.append(longitudOnda)
+
 
                 # =============================================
                 # UPDATE DATA BUFFER
@@ -210,9 +176,11 @@ class RealTimePlot(QWidget):
                   
                   # Remove oldest value
                 self.y = self.y[1:]
+
                   
                   # Add newest value
                 self.y.append(intensidad)
+             
 
                 # =============================================
                 # UPDATE GRAPH VISUALLY
@@ -221,8 +189,7 @@ class RealTimePlot(QWidget):
                   # Replace old graph data with new data
                 self.data_line.setData(self.x, self.y)
 
-        # If conversion fails, ignore the error
-            except:
-                pass
+
+
 
 

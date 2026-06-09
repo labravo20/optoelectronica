@@ -10,8 +10,6 @@ import numpy as np
 # Libreria importada para 'PyQt5 components for the graphical interface'
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
 
-# Libreria importada para 'QTimer allows repetitive execution every X milliseconds'
-from PyQt5.QtCore import QTimer
 
 # Libreria importada para 'Fast real-time plotting library'
 import pyqtgraph as pg
@@ -124,24 +122,12 @@ class RealTimePlot(QWidget):
         # # TIMER CONFIGURATION
         # =====================================               
 
-        # QTimer repeatedly calls a function
-        self.timer = QTimer()
-
-        # Execute every 50 milliseconds
-        self.timer.setInterval(50)  
-
-        # Connect timer to update function
-        # Every 50 ms -> update_plot() runs
-        self.timer.timeout.connect(self.update_plot)
-
-        # Start timer
-        self.timer.start()
-
 
 
     "Definiendo funcion 'update' --> Se ejecuta para la actualización constante del gráfico de la interfaz"
-    def update_plot(self):
+    def update_plot(self,intensidad):
 
+                
         # =====================================
         # RANDOM SOMULATOR DATA (!!!!) --> Desactivar cuando mcu está conectado
         # =====================================
@@ -159,68 +145,42 @@ class RealTimePlot(QWidget):
         # =====================================
         # MICROCONTROLLER DATA
         # =====================================
-
-        # --> CHECK IF THERE IS DATA AVAILABLE <--
         
-        # In_waiting tells how many bytes are waiting in buffer
-        if comSerial.ser.in_waiting:
-
-            # =================================================
-            # READ ONE LINE FROM SERIAL PORT
-            # =================================================
-
-            # readline() reads until '\n'
-            # decode() converts bytes -> text
-            # strip() removes spaces/newlines
-
-            line = comSerial.ser.readline().decode().strip()
-
-            # =================================================
-            # TRY TO CONVERT DATA TO FLOAT
-            # =================================================
-
-            try:
-
-                 # Convert incoming text into number
-                intensidad = float(line)
-                
-                # Cada lectura recibida equivale a un paso
-                self.numero_pasos += 1
+        # Cada lectura recibida equivale a un paso
+        self.numero_pasos += 1
 
                # ==========================
-               # UPDATE X BUFFER (PASOS)
-               # ==========================
+        # UPDATE X BUFFER (PASOS)
+        # ==========================
 
-                # Convirtiendo el número de pasos en desplazamiento efectivo
-                desplazamiento = procesamiento.pasos_a_desplazamiento(self.numero_pasos)
+        # Convirtiendo el número de pasos en desplazamiento efectivo
+        desplazamiento = procesamiento.pasos_a_desplazamiento(self.numero_pasos)
 
-                
-                # Convirtiendo desplazamiento efectivo en coordenada angular
-                senAngulo,angulo = procesamiento.Angulo(desplazamiento)
+        
+        # Convirtiendo desplazamiento efectivo en coordenada angular
+        senAngulo,angulo = procesamiento.Angulo(desplazamiento)
 
-                self.x = self.x[1:]
-                self.x.append(angulo)
+        self.x = self.x[1:]
+        self.x.append(angulo)
         
 
-                # =============================================
-                # UPDATE DATA BUFFER Y (lux)
-                # =============================================
-                  
-                  # Remove oldest value
-                self.y = self.y[1:]
-                  
-                  # Add newest value
-                self.y.append(intensidad)
+        # =============================================
+        # UPDATE DATA BUFFER Y (lux)
+        # =============================================
+            
+            # Remove oldest value
+        self.y = self.y[1:]
+            
+            # Add newest value
+        self.y.append(intensidad)
 
-                # =============================================
-                # UPDATE GRAPH VISUALLY
-                # =============================================
-                
-                  # Replace old graph data with new data
-                self.data_line.setData(self.x, self.y)
+        # =============================================
+        # UPDATE GRAPH VISUALLY
+        # =============================================
+        
+            # Replace old graph data with new data
+        self.data_line.setData(self.x, self.y)
 
-        # If conversion fails, ignore the error
-            except:
-                pass
+
 
 

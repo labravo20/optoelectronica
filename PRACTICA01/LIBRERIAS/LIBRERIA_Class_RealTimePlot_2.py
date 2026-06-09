@@ -10,8 +10,6 @@ import numpy as np
 # Libreria importada para 'PyQt5 components for the graphical interface'
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
 
-# Libreria importada para 'QTimer allows repetitive execution every X milliseconds'
-from PyQt5.QtCore import QTimer
 
 # Libreria importada para 'Fast real-time plotting library'
 import pyqtgraph as pg
@@ -144,67 +142,56 @@ class RealTimePlot(QWidget):
         # # TIMER CONFIGURATION
         # =====================================               
 
-        # QTimer repeatedly calls a function
-        self.timer = QTimer()
-
-        # Execute every 50 milliseconds
-        self.timer.setInterval(50)  
-
-        # Connect timer to update function
-        # Every 50 ms -> update_plot() runs
-        self.timer.timeout.connect(self.update_plot)
-
-        # Start timer
-        self.timer.start()
-
 
 
     "Definiendo funcion guardado DATA barridos"
-    def guardar_barrido_precision(self):
+    # def guardar_barrido_precision(self):
 
-        #ANEXANDO DATA EN DICCIONARIO GLOBAL
-        self.espectros_precision.append({
+    #     #ANEXANDO DATA EN DICCIONARIO GLOBAL
+    #     self.espectros_precision.append({
 
-            "longitudes":
-            self.longitudes_barrido_actual.copy(),
+    #         "longitudes":
+    #         self.longitudes_barrido_actual.copy(),
 
-            "intensidades":
-            self.intensidades_barrido_actual.copy()
-        })
+    #         "intensidades":
+    #         self.intensidades_barrido_actual.copy()
+    #     })
 
 
-        self.numero_barridos_precision += 1 #AUMENTANDO CONTADOR DE NÚMERO DE BARRIDOS
-
-        
-        #Print de verificación cantidad de barridos realizados
-        print(
-            f"Barrido almacenado. Total = "
-            f"{len(self.espectros_precision)}"
-        )
+    #     self.numero_barridos_precision += 1 #AUMENTANDO CONTADOR DE NÚMERO DE BARRIDOS
 
         
-        #Limpiando listas de almacenamiento por barrido
-        self.longitudes_barrido_actual.clear()
-        self.intensidades_barrido_actual.clear()
+    #     #Print de verificación cantidad de barridos realizados
+    #     print(
+    #         f"Barrido almacenado. Total = "
+    #         f"{len(self.espectros_precision)}"
+    #     )
+
+        
+    #     #Limpiando listas de almacenamiento por barrido
+    #     self.longitudes_barrido_actual.clear()
+    #     self.intensidades_barrido_actual.clear()
 
 
-        # AL FINALIZAR BARRIDOS, GUARDA DATA RECOLECTADA EN ATRIBUTOS DE LA CLASE
-        if self.numero_barridos_precision == 3:
+    #     # AL FINALIZAR BARRIDOS, GUARDA DATA RECOLECTADA EN ATRIBUTOS DE LA CLASE
+    #     if self.numero_barridos_precision == 3:
 
-            (
-                self.longitudes_precision,
-                self.media_precision,
-                self.desviacion_precision
-            ) = procesamiento.procesar_precision(
-                self.espectros_precision
-            ) # --> Llamando función para procesamiento de data precision
+    #         (
+    #             self.longitudes_precision,
+    #             self.media_precision,
+    #             self.desviacion_precision
+    #         ) = procesamiento.procesar_precision(
+    #             self.espectros_precision
+    #         ) # --> Llamando función para procesamiento de data precision
 
-            print("Procesamiento de precisión finalizado")
+    #         print("Procesamiento de precisión finalizado")
 
     
 
     "Definiendo funcion 'update' --> Se ejecuta para la actualización constante del gráfico de la interfaz"
-    def update_plot(self):
+    def update_plot(self,intensidad):
+                
+                
 
         # =====================================
         # RANDOM SOMULATOR DATA (!!!!) --> Desactivar cuando mcu está conectado
@@ -231,38 +218,40 @@ class RealTimePlot(QWidget):
         # --> CHECK IF THERE IS DATA AVAILABLE <--
         
         # In_waiting tells how many bytes are waiting in buffer
-        if comSerial.ser.in_waiting:
+        # if comSerial.ser.in_waiting:
 
-            # =================================================
-            # READ ONE LINE FROM SERIAL PORT
-            # =================================================
+        #     # =================================================
+        #     # READ ONE LINE FROM SERIAL PORT
+        #     # =================================================
 
-            # readline() reads until '\n'
-            # decode() converts bytes -> text
-            # strip() removes spaces/newlines
+        #     # readline() reads until '\n'
+        #     # decode() converts bytes -> text
+        #     # strip() removes spaces/newlines
 
-            line = comSerial.ser.readline().decode().strip()
+        #     line = comSerial.ser.readline().decode().strip()
 
 
-            #VERIFICANDO FINALIZACIÓN DEL CICLO DE MEDICIÓN (utilidad para HISTÉRESIS y PRECISIÓN)
-            if line == "F":
+        #     #VERIFICANDO FINALIZACIÓN DEL CICLO DE MEDICIÓN (utilidad para HISTÉRESIS y PRECISIÓN)
+        #     if line == "F":
                 
-                self.guardar_barrido_precision()
-                return
+        #         self.guardar_barrido_precision()
+        #         return
                     
 
             # =================================================
             # TRY TO CONVERT DATA TO FLOAT
             # =================================================
 
-            try:
+            # try:
 
 
-                 # Convert incoming text into number
-                intensidad = float(line)
+                #  # Convert incoming text into number
+                # intensidad = float(line)
                 
                 # Cada lectura recibida equivale a un paso
                 self.numero_pasos += 1
+
+               
 
 
                # ==========================
@@ -273,17 +262,21 @@ class RealTimePlot(QWidget):
                 # Convirtiendo el número de pasos en desplazamiento efectivo
                 desplazamiento = procesamiento.pasos_a_desplazamiento(self.numero_pasos)
 
+
                 
                 # Convirtiendo desplazamiento efectivo en coordenada angular
                 senAngulo,angulo = procesamiento.Angulo(desplazamiento)
+                
 
 
                 # Convirtiendo coordenada angular en Longitud de Onda
                 longitudOnda = procesamiento.longitud_Onda(senAngulo)
+                
 
 
                 self.x = self.x[1:]
                 self.x.append(longitudOnda)
+               
 
 
                 # =============================================
@@ -292,17 +285,17 @@ class RealTimePlot(QWidget):
                   
                 # Aplicando factor de corrección asociado a sensor
                 
-                sensibilidad = procesamiento.corregir_espectro(longitudOnda)
-        
-                intensidadReal = intensidad/sensibilidad
-
+                intensidadReal = procesamiento.corregir_espectro(intensidad,longitudOnda)
+               
 
 
                 # Remove oldest value
                 self.y = self.y[1:]
+               
                   
                   # Add newest value
                 self.y.append(intensidadReal)
+              
 
                 # ==================================================================================================
                 # ALMACENAMIENTO PARA PRECISIÓN
@@ -315,6 +308,7 @@ class RealTimePlot(QWidget):
                 self.intensidades_barrido_actual.append(
                     intensidadReal
                 )
+               
                 
                 
                 # ======================================================================================================
@@ -323,14 +317,10 @@ class RealTimePlot(QWidget):
                 
                   # Replace old graph data with new data
                 self.data_line.setData(self.x, self.y)
+              
         
                 
                 # ALMACENANDO DATA PARA ERROR RELATIVO
                 self.longitudes_medidasIntensidadCorrection = self.x.copy()
                 self.intensidades_medidasIntensidadCorrection = self.y.copy()
-
-        # If conversion fails, ignore the error
-            except:
-                pass
-
 
