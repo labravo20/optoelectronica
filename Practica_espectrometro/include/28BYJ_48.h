@@ -4,10 +4,10 @@
 #include <Arduino.h>
 
 //definicion de pins
-const int motorPin1 = 4;    // In1
-const int motorPin2 = 5;    // In2
-const int motorPin3 = 6;   // In3
-const int motorPin4 = 7;   // In4
+const int motorPin1 = 14;    // In1
+const int motorPin2 = 13;    // In2
+const int motorPin3 = 12;   // In3
+const int motorPin4 = 11;   // In4
 
 const int finalCarreraInt = 16;
 const int finalCarreraExt = 17;

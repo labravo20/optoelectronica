@@ -144,11 +144,11 @@ void Routine_dataCollection()
     FCext = 0;
     FCint = 0;
     
-    moveMotor(stepsPerRev/2, CLOCKWISE); // Se acerca a la región de interés
+    moveMotor(stepsPerRev/4, CLOCKWISE); // Se acerca a la región de interés
 
     //Serial.print("Flag inicio desactivado" );
     flagInicio = 0; // Se inicia la toma de datos
-    Serial.println(flagInicio);    
+    //Serial.println(flagInicio);    
   }
 
   if(flagInicio == 0){
