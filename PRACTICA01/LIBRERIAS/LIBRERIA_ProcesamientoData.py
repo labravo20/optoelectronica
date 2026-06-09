@@ -73,15 +73,25 @@ def sensibilidad_Sensor(lambda_nm):
         1000, 1025, 1050, 1075, 1100
     ]
 
-    ### SENSIBILIDAD ASOCIADA
+    ### SENSIBILIDAD ASOCIADA (Canal 1)
+    """
     S_tabla = [
         0.00, 0.01, 0.03, 0.07, 0.12,
         0.18, 0.25, 0.31, 0.37, 0.42,
         0.46, 0.48, 0.48, 0.47, 0.45,
         0.42, 0.38, 0.33, 0.27, 0.21,
         0.15, 0.10, 0.06, 0.03, 0.01
+    ]"""
+    
+    ### SENSIBILIDAD ASOCIADA (Canal 0)
+    S_tabla = [
+        0.84, 0.89, 0.92, 0.95, 0.97,
+        0.99, 1, 0.99, 0.96, 0.89,
+        0.87, 0.84, 0.80, 0.75, 0.55,
+        0.53, 0.48, 0.43, 0.35, 0.25,
+        0.18, 0.16, 0.10, 0.08, 0.02
     ]
-
+    
 
     # Retornando valor de sensibilidad correspondiente a la longitud de onda ingresada 
     return np.interp(
