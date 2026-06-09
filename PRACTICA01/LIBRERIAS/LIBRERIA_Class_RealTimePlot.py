@@ -91,7 +91,7 @@ class RealTimePlot(QWidget):
 
 
         # Number of points displayed in the graph
-        self.num_points = 100
+        self.num_points = 500
 
         # Eje X -> pasos
         self.x = [0] * self.num_points

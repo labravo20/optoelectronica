@@ -39,7 +39,7 @@ class RealTimePlot(QWidget):
 
 
         # Contador de pasos
-        self.numero_pasos = 0
+        self.numero_pasos = 550
 
         # Contador de número de barridos para PRECISIÓN
         self.numero_barridos_precision = 0
@@ -80,7 +80,7 @@ class RealTimePlot(QWidget):
         # Axis labels --- MCU:
         self.graphWidget.setLabel(
             'left',
-            'Intensidad (lux)'
+            'Intensidad '
         )
 
         self.graphWidget.setLabel(
@@ -110,7 +110,7 @@ class RealTimePlot(QWidget):
         # =====================================
 
         # Number of points displayed in the graph
-        self.num_points = 100
+        self.num_points = 1500
 
         # Time axis (seconds)
         self.x = [0] * self.num_points
@@ -284,6 +284,8 @@ class RealTimePlot(QWidget):
                 # =============================================
                   
                 # Aplicando factor de corrección asociado a sensor
+
+                intensidad = intensidad 
                 
                 intensidadReal = procesamiento.corregir_espectro(intensidad,longitudOnda)
                

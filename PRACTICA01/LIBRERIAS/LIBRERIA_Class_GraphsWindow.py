@@ -23,7 +23,7 @@ class GraphsWindow(QWidget):
 
         layout = QVBoxLayout()
 
-        self.g1 = graph1.RealTimePlot()
+        #self.g1 = graph1.RealTimePlot()
         self.g2 = graph2.RealTimePlot()
         self.g3 = graph3.RealTimePlot()
 
@@ -32,7 +32,7 @@ class GraphsWindow(QWidget):
         self.timer.timeout.connect(self.read_serial)
         self.timer.start(50)
 
-        layout.addWidget(self.g1)
+        #layout.addWidget(self.g1)
         layout.addWidget(self.g2)
         layout.addWidget(self.g3)
 
@@ -47,7 +47,7 @@ class GraphsWindow(QWidget):
             try:
                 intensidad = float(line)
 
-                self.g1.update_plot(intensidad)
+                #self.g1.update_plot(intensidad)
 
                 self.g2.update_plot(intensidad)
 

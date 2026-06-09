@@ -40,7 +40,7 @@ class RealTimePlot(QWidget):
                                              # (x position, y position, width, height)
 
                                                      # Contador de pasos
-        self.numero_pasos = 0
+        self.numero_pasos = 550
 
         # =====================================
         # CREATE GRAPH WIDGET
@@ -61,7 +61,7 @@ class RealTimePlot(QWidget):
         # Axis labels --- MCU:
         self.graphWidget.setLabel(
             'left',
-            'Intensidad (lux)'
+            'Intensidad '
         )
 
         self.graphWidget.setLabel(
@@ -91,7 +91,7 @@ class RealTimePlot(QWidget):
         # =====================================
 
         # Number of points displayed in the graph
-        self.num_points = 100
+        self.num_points = 1500
 
         # Time axis (seconds)
         self.x = [0] * self.num_points
@@ -179,6 +179,7 @@ class RealTimePlot(QWidget):
 
                   
                   # Add newest value
+                intensidad = intensidad   
                 self.y.append(intensidad)
              
 
