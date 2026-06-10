@@ -79,7 +79,7 @@ class CalibrationWindow(QWidget):
         QMessageBox.information(
             self,
             "Resolution Information",
-            f"<b>Resolución:</b> {errorRelativoPromedio:.3f} %"
+            f"<b>Error Relativo:</b> {errorRelativoPromedio:.3f} %"
         )
 
     def precision(self):

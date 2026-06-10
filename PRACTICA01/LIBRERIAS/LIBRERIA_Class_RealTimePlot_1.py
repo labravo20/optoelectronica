@@ -40,7 +40,7 @@ class RealTimePlot(QWidget):
                                              # (x position, y position, width, height)
 
                                                      # Contador de pasos
-        self.numero_pasos = 550
+        self.numero_pasos = 500
 
         # =====================================
         # CREATE GRAPH WIDGET
@@ -174,7 +174,13 @@ class RealTimePlot(QWidget):
                 # UPDATE DATA BUFFER
                 # =============================================
                   
-                  # Remove oldest value
+                #CORRECCION POR RESPONSIVIDAD DE SEGUN INCLINACION ANGULAR
+                #anguloSensor = 1.5707 - angulo #La responsividad se hace con el angulo respecto al eje optico sensor
+
+                intensidad = procesamiento.corregir_espectroInclinacionAngular(intensidad,(angulo+0.7))
+                
+                
+                # Remove oldest value
                 self.y = self.y[1:]
 
                   

@@ -1,4 +1,4 @@
-""" GRAPHIC --> Intensidad vs. Número de pasos"""
+""" GRAPHIC --> Intensidad vs Longitud de onda"""
 
 
 """ INICIO SECCIÓN: Importación de librerias"""
@@ -10,6 +10,8 @@ import numpy as np
 # Libreria importada para 'PyQt5 components for the graphical interface'
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
 
+# Libreria importada para 'QTimer allows repetitive execution every X milliseconds'
+from PyQt5.QtCore import QTimer
 
 # Libreria importada para 'Fast real-time plotting library'
 import pyqtgraph as pg
@@ -19,7 +21,6 @@ import pyqtgraph as pg
 #### --> Importación de docs tipo LIBRERIAS
 from LIBRERIAS import LIBRERIA_ComunicacionSerial as comSerial
 from LIBRERIAS import LIBRERIA_ProcesamientoData as procesamiento
-
 
 
 
@@ -34,19 +35,19 @@ class RealTimePlot(QWidget):
         super().__init__() # Inicialización de 'parent class'
         layout = QVBoxLayout(self)
 
-        self.setWindowTitle("Real-Time Data Visualization") # --> Definición de TITULO de la ventana
+        self.setWindowTitle("Real-Time Data Visualization Espectral Information") # --> Definición de TITULO de la ventana
         self.setGeometry(100, 100, 800, 500) # Window size and position
                                              # (x position, y position, width, height)
-        
-        # Contador de pasos
-        self.numero_pasos = 0
+
+                                                     # Contador de pasos
+        self.numero_pasos = 500
 
         # =====================================
         # CREATE GRAPH WIDGET
         # =====================================
         self.graphWidget = pg.PlotWidget()  # Create a plotting area
         layout.addWidget(self.graphWidget)
-
+        
         #self.setCentralWidget(self.graphWidget) # Put graph inside the main window
 
 
@@ -60,12 +61,12 @@ class RealTimePlot(QWidget):
         # Axis labels --- MCU:
         self.graphWidget.setLabel(
             'left',
-            'Illuminance (lux)'
+            'Intensidad '
         )
 
         self.graphWidget.setLabel(
             'bottom',
-            'Angle'
+            'Longitud de Onda (nm)'
         )
 
 
@@ -89,15 +90,15 @@ class RealTimePlot(QWidget):
         # DATA STORAGE ---- IMPLEMENTANDO MCU
         # =====================================
 
-
         # Number of points displayed in the graph
-        self.num_points = 500
+        self.num_points = 1500
 
-        # Eje X -> pasos
+        # Time axis (seconds)
         self.x = [0] * self.num_points
 
-        # Eje Y -> Signal values
+        # Signal values
         self.y = [0] * self.num_points
+
 
 
         # =====================================
@@ -127,12 +128,11 @@ class RealTimePlot(QWidget):
     "Definiendo funcion 'update' --> Se ejecuta para la actualización constante del gráfico de la interfaz"
     def update_plot(self,intensidad):
 
-                
         # =====================================
         # RANDOM SOMULATOR DATA (!!!!) --> Desactivar cuando mcu está conectado
         # =====================================
 
-        # new_value = np.random.normal() # Generación artificial de data
+        # new_value = (np.random.normal())**2 # Generación artificial de data
 
         # # Update buffer
         # self.y = self.y[1:]
@@ -143,43 +143,68 @@ class RealTimePlot(QWidget):
           
 
         # =====================================
-        # MICROCONTROLLER DATA
+        # MICROCONTROLLER DATA 
         # =====================================
-        
-        # Cada lectura recibida equivale a un paso
-        self.numero_pasos += 1
+                
+                # Cada lectura recibida equivale a un paso
+                self.numero_pasos += 1
 
                # ==========================
-        # UPDATE X BUFFER (PASOS)
-        # ==========================
+               # UPDATE X BUFFER (PASOS)
+               # ==========================
 
-        # Convirtiendo el número de pasos en desplazamiento efectivo
-        desplazamiento = procesamiento.pasos_a_desplazamiento(self.numero_pasos)
+                # Convirtiendo el número de pasos en desplazamiento efectivo
+                desplazamiento = procesamiento.pasos_a_desplazamiento(self.numero_pasos)
 
-        
-        # Convirtiendo desplazamiento efectivo en coordenada angular
-        senAngulo,angulo = procesamiento.Angulo(desplazamiento)
 
-        self.x = self.x[1:]
-        self.x.append(angulo)
-        
+                # Convirtiendo desplazamiento efectivo en coordenada angular
+                senAngulo,angulo = procesamiento.Angulo(desplazamiento)
 
-        # =============================================
-        # UPDATE DATA BUFFER Y (lux)
-        # =============================================
-            
-            # Remove oldest value
-        self.y = self.y[1:]
-            
-            # Add newest value
-        self.y.append(intensidad)
 
-        # =============================================
-        # UPDATE GRAPH VISUALLY
-        # =============================================
-        
-            # Replace old graph data with new data
-        self.data_line.setData(self.x, self.y)
+                # Convirtiendo coordenada angular en Longitud de Onda
+                longitudOnda = procesamiento.longitud_Onda(senAngulo)
+
+
+
+                self.x = self.x[1:]
+                self.x.append(longitudOnda)
+
+
+                # =============================================
+                # UPDATE DATA BUFFER
+                # =============================================
+                  
+                #CORRECCION POR RESPONSIVIDAD DE SEGUN INCLINACION ANGULAR
+                #anguloSensor = 1.5707 - angulo #La responsividad se hace con el angulo respecto al eje optico sensor
+                
+                # Remove oldest value
+                self.y = self.y[1:]
+
+                  
+                  # Add newest value   
+                self.y.append(intensidad)
+
+                # Normalización
+                max_intensidad = max(self.y)
+
+                # =============================================
+                # UPDATE GRAPH VISUALLY NORMALIZADA
+                # =============================================
+                if max_intensidad > 0:
+                    y_norm = [valor/max_intensidad for valor in self.y]
+                else:
+                    y_norm = self.y
+
+                self.data_line.setData(self.x, y_norm)
+             
+
+                # =============================================
+                # UPDATE GRAPH VISUALLY
+                # =============================================
+                
+                  # Replace old graph data with new data
+                #self.data_line.setData(self.x, self.y)
+
 
 
 

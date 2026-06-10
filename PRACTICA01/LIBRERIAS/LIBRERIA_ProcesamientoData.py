@@ -113,6 +113,62 @@ def corregir_espectro(lux_medido, lambda_nm):
 
 
 
+ 
+def sensibilidad_SensorInclinacionAngular(angle):
+
+    # Definición de tabla asociada a curva de sensibilidad sensor
+
+    ### COORDENADA ANGULAR
+    angle_tabla = [
+        0.0000,  # 0°
+        0.1745,  # 10°
+        0.3491,  # 20°
+        0.5236,  # 30°
+        0.6981,  # 40°
+        0.8727,  # 50°
+        1.0472,  # 60°
+        1.2217,  # 70°
+        1.3963,  # 80°
+        1.5708   # 90°
+    ]
+
+    # Respuesta normalizada aproximada
+    S_tabla = [
+        1.00,  # 0°
+        0.98,  # 10°
+        0.94,  # 20°
+        0.87,  # 30°
+        0.76,  # 40°
+        0.64,  # 50°
+        0.52,  # 60°
+        0.37,  # 70°
+        0.21,  # 80°
+        0.06   # 90°
+    ]
+    
+
+    # Retornando valor de sensibilidad correspondiente a la longitud de onda ingresada 
+    return np.interp(
+        angle,
+        angle_tabla,
+        S_tabla
+    )
+
+
+
+def corregir_espectroInclinacionAngular(lux_medido, angle):
+
+    sensibilidad = sensibilidad_SensorInclinacionAngular(angle)
+
+    # Evitar división por valores muy pequeños
+    sensibilidad = max(sensibilidad, 0.01)
+
+    return lux_medido / sensibilidad
+
+
+
+
+
 """ INICIO SECCIÓN ASOCIADA DEFINICIÓN DE FUNCIONES PARA CALIBRACIÓN  """
 
 
