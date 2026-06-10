@@ -37,24 +37,24 @@ class CalibrationWindow(QWidget):
 
         self.btn_cal1 = QPushButton("Resolución")
         self.btn_cal2 = QPushButton("Error Relativo")
-        self.btn_cal3 = QPushButton("Precisión")
-        self.btn_cal4 = QPushButton("Histéresis")
-        self.btn_cal6 = QPushButton("Incertidumbre")
+        # self.btn_cal3 = QPushButton("Precisión")
+        # self.btn_cal4 = QPushButton("Histéresis")
+        # self.btn_cal6 = QPushButton("Incertidumbre")
 
         layout.addWidget(self.btn_cal1)
         layout.addWidget(self.btn_cal2)
-        layout.addWidget(self.btn_cal3)
-        layout.addWidget(self.btn_cal4)
-        layout.addWidget(self.btn_cal6)
+        # layout.addWidget(self.btn_cal3)
+        # layout.addWidget(self.btn_cal4)
+        # layout.addWidget(self.btn_cal6)
 
         self.setLayout(layout)
 
         # Conectar funciones
         self.btn_cal1.clicked.connect(self.resolucion)
         self.btn_cal2.clicked.connect(self.error_Relativo)
-        self.btn_cal3.clicked.connect(self.precision)
-        self.btn_cal4.clicked.connect(self.histeresis)
-        self.btn_cal6.clicked.connect(self.incertidumbre)
+        # self.btn_cal3.clicked.connect(self.precision)
+        # self.btn_cal4.clicked.connect(self.histeresis)
+        # self.btn_cal6.clicked.connect(self.incertidumbre)
 
     def resolucion(self):
         

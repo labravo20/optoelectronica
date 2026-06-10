@@ -297,6 +297,9 @@ class RealTimePlot(QWidget):
                   
                   # Add newest value
                 self.y.append(intensidadReal)
+
+                # Normalización
+                max_intensidad = max(self.y)
               
 
                 # ==================================================================================================
@@ -311,14 +314,22 @@ class RealTimePlot(QWidget):
                     intensidadReal
                 )
                
-                
+                # =============================================
+                # UPDATE GRAPH VISUALLY NORMALIZADA
+                # =============================================
+                if max_intensidad > 0:
+                    y_norm = [valor/max_intensidad for valor in self.y]
+                else:
+                    y_norm = self.y
+
+                self.data_line.setData(self.x, y_norm)
                 
                 # ======================================================================================================
                 # UPDATE GRAPH VISUALLY
                 # =============================================
                 
                   # Replace old graph data with new data
-                self.data_line.setData(self.x, self.y)
+                #self.data_line.setData(self.x, self.y)
               
         
                 

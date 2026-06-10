@@ -178,9 +178,21 @@ class RealTimePlot(QWidget):
                 self.y = self.y[1:]
 
                   
-                  # Add newest value
-                intensidad = intensidad   
+                  # Add newest value   
                 self.y.append(intensidad)
+
+                # Normalización
+                max_intensidad = max(self.y)
+
+                # =============================================
+                # UPDATE GRAPH VISUALLY NORMALIZADA
+                # =============================================
+                if max_intensidad > 0:
+                    y_norm = [valor/max_intensidad for valor in self.y]
+                else:
+                    y_norm = self.y
+
+                self.data_line.setData(self.x, y_norm)
              
 
                 # =============================================
@@ -188,7 +200,7 @@ class RealTimePlot(QWidget):
                 # =============================================
                 
                   # Replace old graph data with new data
-                self.data_line.setData(self.x, self.y)
+                #self.data_line.setData(self.x, self.y)
 
 
 
