@@ -39,7 +39,7 @@ class RealTimePlot(QWidget):
 
 
         # Contador de pasos
-        self.numero_pasos = 500
+        self.numero_pasos = 5
 
         # Contador de número de barridos para PRECISIÓN
         self.numero_barridos_precision = 0
@@ -286,9 +286,9 @@ class RealTimePlot(QWidget):
                 # Aplicando factor de corrección asociado a sensor
 
                 
-                intensidad = procesamiento.corregir_espectroInclinacionAngular(intensidad,(angulo+0.7))
+                intensidad = procesamiento.corregir_espectroInclinacionAngular(intensidad,(angulo + 0.7))
                 
-                intensidadReal = procesamiento.corregir_espectro(intensidad,longitudOnda)
+                #intensidadReal = procesamiento.corregir_espectro(intensidad,longitudOnda)
                
 
 
@@ -297,7 +297,7 @@ class RealTimePlot(QWidget):
                
                   
                   # Add newest value
-                self.y.append(intensidadReal)
+                self.y.append(intensidad)
 
                 # Normalización
                 max_intensidad = max(self.y)
@@ -312,7 +312,7 @@ class RealTimePlot(QWidget):
                 )
 
                 self.intensidades_barrido_actual.append(
-                    intensidadReal
+                    intensidad
                 )
                
                 # =============================================

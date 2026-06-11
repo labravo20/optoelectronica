@@ -3,6 +3,7 @@
 
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 
@@ -230,6 +231,37 @@ def error_relativo(x_med,y_med):
     
     #Calculando error relativo PROMEDIO
     error_promedio = np.mean(error_relativo)
+
+    
+    # ==================================================
+    # GRÁFICA COMPARATIVA
+    # ==================================================
+
+    plt.figure(figsize=(10, 6))
+
+    plt.plot(
+        x_ref,
+        y_ref_norm,
+        label="Referencia (Thorlabs)"
+    )
+
+    plt.plot(
+        x_med,
+        y_med_norm,
+        label="Espectrofotómetro"
+    )
+
+    plt.xlabel("Longitud de onda (nm)")
+    plt.ylabel("Intensidad normalizada")
+    plt.title(
+        f"Comparación espectral\nError relativo promedio = {error_promedio:.2f}%"
+    )
+
+    plt.grid(True)
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
 
     return error_promedio
 
