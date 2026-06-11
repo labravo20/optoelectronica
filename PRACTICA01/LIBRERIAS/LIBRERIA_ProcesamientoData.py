@@ -224,25 +224,31 @@ def error_relativo(x_med,y_med):
     # Comenzando proceso de interpolacion 
     y_ref_interp = np.interp(x_med, x_ref,y_ref_norm)
 
-    # Seleccionar únicamente el rango 350-800 nm
-    # mask = (x_med >= 350) & (x_med <= 800)
-
-    # x_med_filtrado = x_med[mask]
-    # y_med_filtrado = y_med_norm[mask]
-    # y_ref_filtrado = y_ref_interp[mask]
-
-    # error_relativo = np.abs(
-    # (y_med_filtrado - y_ref_filtrado)
-    # / y_ref_filtrado
-    # ) * 100
-
+  
     #Calculando porcentaje de error relativo PUNTO A PUNTO
-    error_relativo = np.abs(
-        (y_med_norm - y_ref_interp)
-        / y_ref_interp) * 100
+    
+    
+    # error_relativo = np.abs(
+    #     (y_med_norm - y_ref_interp)
+    #     / y_ref_interp) * 100
+
+    errores = []
+
+    for i in range(len(x_med)):
+
+        if (
+           y_med_norm[i] > 0.1
+        ):
+
+            error = abs(
+                (y_med_norm[i] - y_ref_interp[i])
+                / y_ref_interp[i]
+            ) * 100
+
+            errores.append(error)
     
     #Calculando error relativo PROMEDIO
-    error_promedio = np.mean(error_relativo)
+    error_promedio = np.mean(errores)
 
     
     # ==================================================
