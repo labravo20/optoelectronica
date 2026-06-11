@@ -246,6 +246,9 @@ def error_relativo(x_med,y_med):
             ) * 100
 
             errores.append(error)
+        
+        else:
+            errores.append(0)
     
     #Calculando error relativo PROMEDIO
     error_promedio = np.mean(errores)
@@ -281,7 +284,60 @@ def error_relativo(x_med,y_med):
     plt.tight_layout()
     plt.show()
 
+
+    # ==================================================
+    # EXPORTAR DATOS MEDIDOS A CSV
+    # ==================================================
+
+    # datos_exportar = pd.DataFrame({
+    #     "LongitudOnda_nm": x_med,
+    #     "Intensidad_Normalizada": y_med_norm
+    # })
+
+    # ruta_salida = "C:/Users/lauri/Downloads/espectro_medido.csv"
+
+    # datos_exportar.to_csv(
+    #     ruta_salida,
+    #     index=False,
+    #     sep=";"
+    # )
+
+    # print(f"Archivo guardado en:\n{ruta_salida}")
+
     return error_promedio
+
+
+
+def incertidumbre_medida(y_med):
+
+    y_med = np.asarray(y_med)
+
+    n = len(y_med)
+
+    media = np.mean(y_med)
+
+    desviacion_estandar = np.std(
+        y_med,
+        ddof=1
+    )
+
+    incertidumbre = (
+        desviacion_estandar
+        / np.sqrt(n)
+    )
+
+    incertidumbre_expandida = (
+        2 * incertidumbre
+    )
+
+    return {
+        "n": n,
+        "media": media,
+        "desviacion_estandar": desviacion_estandar,
+        "incertidumbre": incertidumbre,
+        "incertidumbre_expandida": incertidumbre_expandida
+    }
+
 
 
 

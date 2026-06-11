@@ -39,13 +39,13 @@ class CalibrationWindow(QWidget):
         self.btn_cal2 = QPushButton("Error Relativo")
         # self.btn_cal3 = QPushButton("Precisión")
         # self.btn_cal4 = QPushButton("Histéresis")
-        # self.btn_cal6 = QPushButton("Incertidumbre")
+        #self.btn_cal6 = QPushButton("Incertidumbre")
 
         layout.addWidget(self.btn_cal1)
         layout.addWidget(self.btn_cal2)
         # layout.addWidget(self.btn_cal3)
         # layout.addWidget(self.btn_cal4)
-        # layout.addWidget(self.btn_cal6)
+        #layout.addWidget(self.btn_cal6)
 
         self.setLayout(layout)
 
@@ -54,12 +54,12 @@ class CalibrationWindow(QWidget):
         self.btn_cal2.clicked.connect(self.error_Relativo)
         # self.btn_cal3.clicked.connect(self.precision)
         # self.btn_cal4.clicked.connect(self.histeresis)
-        # self.btn_cal6.clicked.connect(self.incertidumbre)
+        #self.btn_cal6.clicked.connect(self.incertidumbre)
 
     def resolucion(self):
         
         # Ejemplo de cálculo
-        resolucion = procesamiento.resolucion()
+        resolucion = (procesamiento.resolucion())*2
 
         # Mostrar mensaje
         QMessageBox.information(
@@ -138,6 +138,44 @@ class CalibrationWindow(QWidget):
 
 
     def incertidumbre(self):
+
         print("Ejecutando Incertidumbre")
+        comSerial.ser.write(b'I')
+
+        try:
+
+            y_med = (
+                self.graph_window.g3.intensidades_medidasIntensidadCorrection
+            )
+
+            (
+                media,
+                desviacion,
+                incertidumbre,
+                incertidumbre_expandida
+            ) = procesamiento.incertidumbre_medida(y_med)
+
+            QMessageBox.information(
+                self,
+                "Incertidumbre",
+                f"""
+                <b>Número de muestras:</b> {len(y_med)}<br><br>
+
+                <b>Media:</b> {media:.4f}<br>
+                <b>Desviación estándar:</b> {desviacion:.4f}<br>
+                <b>Incertidumbre estándar:</b> {incertidumbre:.4f}<br>
+                <b>Incertidumbre expandida (k=2):</b> {incertidumbre_expandida:.4f}
+                """
+            )
+
+        except Exception as e:
+
+            QMessageBox.warning(
+                self,
+                "Incertidumbre",
+                f"Error al calcular la incertidumbre:\n{e}"
+            )
+
+
 
 

@@ -252,7 +252,7 @@ class RealTimePlot(QWidget):
                 # Aplicando factor de corrección asociado a sensor
 
                 
-                intensidad = procesamiento.corregir_espectroInclinacionAngular(intensidad,(angulo + 0.9))
+                intensidad = procesamiento.corregir_espectroInclinacionAngular(intensidad,(angulo + 0.98))
                 
                 #intensidadReal = procesamiento.corregir_espectro(intensidad,longitudOnda)
                
