@@ -39,7 +39,7 @@ class RealTimePlot(QWidget):
 
 
         # Contador de pasos
-        self.numero_pasos = 5
+        self.numero_pasos = 370
 
         # Contador de número de barridos para PRECISIÓN
         self.numero_barridos_precision = 0
@@ -74,7 +74,7 @@ class RealTimePlot(QWidget):
         # GRAPH APPEARANCE CONFIGURATION
         # =====================================
         self.graphWidget.setBackground('w') # White background
-        self.graphWidget.setTitle("Sensor Data Espectral Correction") # Graph title
+        self.graphWidget.setTitle("Sensor Data Angular Responsivity Correction") # Graph title
 
         
         # Axis labels --- MCU:
@@ -87,21 +87,6 @@ class RealTimePlot(QWidget):
             'bottom',
             'Longitud de Onda (nm)'
         )
-
-
-
-
-        # =====================================
-        # # DATA STORAGE --- PRUEBA CON DATA RANDOM
-        # =====================================       
-        
-        # # X-axis values:
-        # # --> Creates numbers from 0 to 99
-        # self.x = list(range(100))
-
-        # # Y-axis values:
-        # # --> Creates numbers from 0 to 99
-        # self.y = [0] * 100
 
 
 
@@ -191,25 +176,6 @@ class RealTimePlot(QWidget):
     "Definiendo funcion 'update' --> Se ejecuta para la actualización constante del gráfico de la interfaz"
     def update_plot(self,intensidad):
                 
-                
-
-        # =====================================
-        # RANDOM SOMULATOR DATA (!!!!) --> Desactivar cuando mcu está conectado
-        # =====================================
-
-        # new_value = (np.random.normal())**3 # Generación artificial de data
-
-        # # Update buffer
-        # self.y = self.y[1:]
-        # self.y.append(new_value)
-
-        # # Update graph
-        # self.data_line.setData(self.x, self.y)
-
-        # self.longitudes_medidasIntensidadCorrection = self.x.copy()
-        # self.intensidades_medidasIntensidadCorrection = self.y.copy()
-
-          
 
         # =====================================
         # MICROCONTROLLER DATA 
@@ -286,7 +252,7 @@ class RealTimePlot(QWidget):
                 # Aplicando factor de corrección asociado a sensor
 
                 
-                intensidad = procesamiento.corregir_espectroInclinacionAngular(intensidad,(angulo + 0.7))
+                intensidad = procesamiento.corregir_espectroInclinacionAngular(intensidad,(angulo + 0.9))
                 
                 #intensidadReal = procesamiento.corregir_espectro(intensidad,longitudOnda)
                

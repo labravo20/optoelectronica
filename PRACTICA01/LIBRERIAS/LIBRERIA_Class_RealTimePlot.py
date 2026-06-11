@@ -40,7 +40,7 @@ class RealTimePlot(QWidget):
                                              # (x position, y position, width, height)
 
                                                      # Contador de pasos
-        self.numero_pasos = 5
+        self.numero_pasos = 370
 
         # =====================================
         # CREATE GRAPH WIDGET
