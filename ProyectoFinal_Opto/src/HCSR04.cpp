@@ -1,7 +1,10 @@
 #include "HCSR04.h"
 
 float echoTimeResponse = 0; // Tiempo que se demora en recibir la señal echo
-float distance = 0; // Distancia calculada
+float distance_US = 0; // Distancia calculada por el sensor ultrasónico
+float distance_IR = 0; // Distancia calculada por el sensor infrarrojo
+float Voltage_IR = 0;
+volatile bool stopFlagIR = false;
 
 volatile bool measureFlag = false;
 
@@ -19,15 +22,19 @@ void Distance_Ultrasonic(){
     
     echoTimeResponse = pulseIn(echoPin, HIGH); // Obtenemos el ancho del pulso recibido
 
-    distance = echoTimeResponse/59;  //escalamos el tiempo a una distancia en cm
+    distance_US = echoTimeResponse/59;  //escalamos el tiempo a una distancia en cm
     
-    Serial.print("Distancia: ");
-    Serial.print(distance);      //Enviamos serialmente el valor de la distancia
-    Serial.print("cm");
-    Serial.println();
+    //Serial.print("Distancia: ");
+    Serial.println(distance_US);      //Enviamos serialmente el valor de la distancia
+    //Serial.print("cm");
+    //Serial.println();
 
     measureFlag = false; // Bajamos la bandera  
     }
 
+}
+
+void IRAM_ATTR stopIRint() {
+  stopFlagIR = true;
 }
 
