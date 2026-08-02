@@ -10,10 +10,10 @@
 #define PIN_M_BACK_IZQ_2 9  // (M3)
 
 // Motores der
-#define PIN_M_FRONT_DER_1 43 // (M2)
-#define PIN_M_BACK_DER_2 20 // (M4)
+#define PIN_M_FRONT_DER_1 21 // (M2) -> revisar si me esta pausando el serial
+#define PIN_M_BACK_DER_2 2 // (M4)
 
-#define PIN_SERVO 44
+#define PIN_SERVO 7
 
 // PWM parameters
 #define PWM_FREQ     50    // 50 Hz 
@@ -26,11 +26,12 @@
 #define PWM_CHANNEL_M4  3  // PWM channel for M4
 #define PWM_CHANNEL_SERVO 4 // PWM channel for Servo
 
-#define SERVO_0_DEGREE 205
+
+#define SERVO_90_DEGREE 205
 #define SERVO_45_DEGREE 256
-#define SERVO_90_DEGREE 307
-#define SERVO_135_DEGREE 358
-#define SERVO_180_DEGREE 410
+#define SERVO_0_DEGREE 307 
+#define SERVO_N45_DEGREE 358
+#define SERVO_N90_DEGREE 410
 
 
 

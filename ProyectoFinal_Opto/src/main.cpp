@@ -5,6 +5,7 @@
 #include <Ticker.h>
 
 Ticker timer_Ultrasonic;
+  void Rutina_Mapeo(void);
 
 void setup(){
   
@@ -14,72 +15,49 @@ void setup(){
   // Sensor ultrasonido
   pinMode(triggerPin, OUTPUT);
   pinMode(echoPin, INPUT);
-
   digitalWrite(triggerPin, LOW);
 
   // Sensor infrarrojo
   pinMode(IRsensorPin, INPUT);
   attachInterrupt(digitalPinToInterrupt(IRsensorPin), stopIRint, FALLING);
 
-  pinMode(PIN_M_FRONT_IZQ_1, OUTPUT);
-  pinMode(PIN_M_BACK_IZQ_2, OUTPUT);
-
-  digitalWrite(PIN_M_FRONT_IZQ_1, LOW);
-  digitalWrite(PIN_M_BACK_IZQ_2, LOW);
-
   //timer_Ultrasonic.attach(0.1, timerInterrupt);
 
-  //pinMotorsSetup();
-
-  // PWM Servo set up
-  //ledcSetup(PWM_CHANNEL_M1, PWM_FREQ, PWM_RES);
-  //ledcAttachPin(PIN_M_FRONT_IZQ_1, PWM_CHANNEL_M1);
-
-  //ledcWrite(PWM_CHANNEL_M1, 0); 
+  pinMotorsSetup();
 
 }
 
 void loop(){
 
-  //Distance_Ultrasonic();
+Serial.println("Probando probando");
 
- /*if(stopFlagIR){
-    Serial.println("Objeto detectado por sensor IR");
-  stopFlagIR = false; // Bajamos la bandera
-  }*/
+moveForward();
 
-
-  /*ledcWrite(PWM_CHANNEL_M1, 205);
-  delay(2000);
-  ledcWrite(PWM_CHANNEL_M1, 256);
-  delay(2000);
-  ledcWrite(PWM_CHANNEL_M1, 307);
-  delay(2000);
-  ledcWrite(PWM_CHANNEL_M1, 358);
-  delay(2000);*/
+Rutina_Mapeo();
 
 
-  moveForward();
-  delay(2000);
+
+//digitalWrite(PIN_M_FRONT_DER_1, LOW);
+
+delay(5000);
+
+//digitalWrite(PIN_M_FRONT_DER_1, LOW);
+
+moveBackward();
+
+delay(5000);
+
+turnLeft();
+
+delay(5000);  
+
+turnRight();
+
+delay(5000);
 
 
- /* servoMoveToangle(0);
-  Serial.println("Servo en 0°");
-  delay(1000);
-  Serial.println("Servo en 45°");
-  servoMoveToangle(45);
-  delay(1000);
-  servoMoveToangle(90);
-  Serial.println("Servo en 90°");
-  delay(1000);
-  servoMoveToangle(135);
-  Serial.println("Servo en 135°");
-  delay(1000);
-  servoMoveToangle(180);
-  Serial.println("Servo en 180°");
-  delay(1000);
 
-*/
+
 }
 
 /*
@@ -113,3 +91,44 @@ void loop(){
 
   // 03200000000000000000000000000000000000000000000000000....................000000000000000000000000000000000000000000
 
+  void Rutina_Mapeo(){
+
+  if(stopFlagIR){
+
+    moveStop();
+
+    moveBackward();
+    delay(500);
+
+    servoMoveToangle(0);
+    distance_measured_0 = Distance_Ultrasonic();
+    Serial.println(distance_measured_0);
+
+    servoMoveToangle(45);
+    distance_measured_45 = Distance_Ultrasonic();
+    Serial.println(distance_measured_45);
+    
+    servoMoveToangle(90);
+    distance_measured_90 = Distance_Ultrasonic();
+    Serial.println(distance_measured_90);
+
+    servoMoveToangle(135);
+    distance_measured_135 = Distance_Ultrasonic();
+    Serial.println(distance_measured_135);
+
+    servoMoveToangle(180);
+    distance_measured_180 = Distance_Ultrasonic();
+    Serial.println(distance_measured_180);
+
+    servoMoveToangle(0);
+    delay(600);
+
+    
+    
+    stopFlagIR = false; // Bajamos la bandera
+
+    }
+
+  }
+
+  

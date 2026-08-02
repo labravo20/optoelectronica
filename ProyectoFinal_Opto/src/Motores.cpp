@@ -41,21 +41,11 @@ void turnLeft()       // Turn Left Function for Motor Driver.
 }
 
 void servoMoveToangle(uint16_t angle){
-
-
-    ledcWrite(PWM_CHANNEL_M1, 205);
-  delay(2000);
-  ledcWrite(PWM_CHANNEL_M1, 256);
-  delay(2000);
-  ledcWrite(PWM_CHANNEL_M1, 307);
-  delay(2000);
-  ledcWrite(PWM_CHANNEL_M1, 358);
-  delay(2000);
   
   switch (angle)
   {
   case 0:
-    ledcWrite(PWM_CHANNEL_SERVO, SERVO_0_DEGREE);  
+    ledcWrite(PWM_CHANNEL_SERVO, SERVO_90_DEGREE);  
     break;
 
   case 45:
@@ -63,15 +53,15 @@ void servoMoveToangle(uint16_t angle){
     break;
   
   case 90:
-    ledcWrite(PWM_CHANNEL_SERVO, SERVO_90_DEGREE);
+    ledcWrite(PWM_CHANNEL_SERVO, SERVO_0_DEGREE);
     break;
 
   case 135: 
-    ledcWrite(PWM_CHANNEL_SERVO, SERVO_135_DEGREE);
+    ledcWrite(PWM_CHANNEL_SERVO, SERVO_N45_DEGREE);
     break;
 
   case 180:
-    ledcWrite(PWM_CHANNEL_SERVO, SERVO_180_DEGREE);
+    ledcWrite(PWM_CHANNEL_SERVO, SERVO_N90_DEGREE);
     break;
 
   default:
@@ -82,27 +72,19 @@ void servoMoveToangle(uint16_t angle){
 
 void pinMotorsSetup(){
 
-  /*// PWM H-bridge 1 set up
-  ledcSetup(PWM_CHANNEL_M1, PWM_FREQ, PWM_RES);
-  ledcAttachPin(PIN_M_FRONT_IZQ_1, PWM_CHANNEL_M1);
-  */
-  ledcSetup(PWM_CHANNEL_M2, PWM_FREQ, PWM_RES);
-  ledcAttachPin(PIN_M_FRONT_DER_1, PWM_CHANNEL_M2);
+  // PWM H-bridge 1 set up
+  pinMode(PIN_M_FRONT_IZQ_1, OUTPUT);
+  pinMode(PIN_M_BACK_IZQ_2, OUTPUT);
 
   // PWM H-bridge 2 set up
-  ledcSetup(PWM_CHANNEL_M3, PWM_FREQ, PWM_RES);
-  ledcAttachPin(PIN_M_BACK_IZQ_2, PWM_CHANNEL_M3);
-
-  ledcSetup(PWM_CHANNEL_M4, PWM_FREQ, PWM_RES);
-  ledcAttachPin(PIN_M_BACK_DER_2, PWM_CHANNEL_M4);
+  pinMode(PIN_M_BACK_DER_2, OUTPUT);
+  pinMode(PIN_M_FRONT_DER_1, OUTPUT);
 
   // PWM Servo set up
-  ledcSetup(PWM_CHANNEL_M1, PWM_FREQ, PWM_RES);
-  ledcAttachPin(PIN_M_FRONT_IZQ_1, PWM_CHANNEL_M1);
+  ledcSetup(PWM_CHANNEL_SERVO, PWM_FREQ, PWM_RES);
+  ledcAttachPin(PIN_SERVO, PWM_CHANNEL_SERVO);
 
   ledcWrite(PWM_CHANNEL_SERVO, SERVO_0_DEGREE); 
-
-  Serial.println("Motores y servo configurados correctamente");
 
 } 
 
